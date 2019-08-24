@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragments :: head (${ground != null ? ground.name : error})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<!-- todo: to edit -->
+<div class="container mt-4 mb-4">
+    <div th:if="${error}" class="alert alert-danger">
+        <h5 th:text="#{error}"></h5>
+        <div th:text="#{${error}}"></div>
+    </div>
+    <div th:if="${ground}" class="row" th:with="firstCol=${'ground.logoUrl' == '' ? 12 : 9},secondCol=${'ground.logoUrl' == '' ? 0 : 3}">
+        <div th:classappend="${'col-' + firstCol}">
+            <div class="btn-group float-right" sec:authorize="isAuthenticated()">
+                <a class="btn btn-primary btn-sm" th:href="@{'/administrator/grounds/edit/' + ${ground.id}}"><i class="fas fa-edit fa-fw"></i> <span th:text="#{ground.edit}"></span></a>
+                <button type="button" class="btn btn-danger btn-sm removeGround" data-toggle="modal" data-target="#modal" th:data-ground-id="${ground.id}" th:data-ground-name="${ground.name}"><i class="fas fa-trash-alt fa-fw"></i> <span th:text="#{ground.remove}"></span></button>
+            </div>
+            <h2 th:text="${ground.name}"></h2>
+            <small class="text-muted"><strong th:text="#{ground.created}"></strong>: <span th:utext="${ground.created}"></span></small>
+            <!--<div th:if="${ground.created}"><strong th:text="#{ground.created}"></strong>: <span th:text="${ground.created}"></span></div>-->
+            <!--<div th:if="${ground.websiteUrl != ''}"><strong th:text="#{ground.websiteURL}"></strong>: <a th:href="${ground.websiteUrl}" th:text="${ground.websiteUrl}" target="_blank"></a></div>-->
+            <!--<div th:if="${ground.description != ''}"><strong th:text="#{ground.description}"></strong>: <span th:utext="${ground.description}"></span></div>-->
+        </div>
+        <div th:classappend="${'col-' + secondCol}">
+            <!--<div th:if="${ground.logoUrl != ''}"><img class="img-fluid img-thumbnail" th:src="${ground.logoUrl}"/></div>-->
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: modal}"></div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

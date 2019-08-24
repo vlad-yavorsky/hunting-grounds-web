@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.grounds})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 th:text="#{nav.grounds}"></h2>
+
+    <div th:if="${error}" class="alert alert-danger">
+        <h5 th:text="#{error}"></h5>
+        <div th:text="#{${error}}"></div>
+    </div>
+
+    <div th:if="${success}" th:text="#{${success}}" class="alert alert-success"></div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th width="1%" th:utext="#{ground.id}"></th>
+                <th th:utext="#{ground.name}"></th>
+                <th th:utext="#{ground.kml}"></th>
+                <th th:utext="#{ground.area}"></th>
+                <th th:utext="#{ground.created}"></th>
+                <th width="1%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ground: ${grounds}">
+                <td th:utext="${ground.id}"></td>
+                <td><a th:text="${ground.name}" th:href="@{'/administrator/grounds/edit/'+${ground.id}}"></a>
+                    <br><b th:utext="#{ground.alias}"></b>: <span th:utext="${ground.alias}"></span>
+                </td>
+                <td><span th:if="${ground.kml != ''}">+</span></td>
+                <td><span th:if="${ground.area}" th:utext="${ground.area}"></span></td>
+                <td><span th:utext="${#dates.format(ground.created, 'dd/MM/yyyy')}"></span></td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-primary" th:href="@{'/administrator/grounds/edit/' + ${ground.id}}"><i class="fas fa-edit fa-fw"></i> <!--<span th:text="#{ground.edit}"></span>--></a>
+                        <a th:if="${ground.kml != null && ground.kml != ''}" class="btn btn-info" th:href="@{'/administrator/grounds/reverseinnerbounds/' + ${ground.id}}" title="Fix inner bounds"><i class="fas fa-wrench"></i></a>
+                        <button type="button" class="btn btn-danger removeGround" data-toggle="modal" data-target="#modal" th:data-ground-id="${ground.id}" th:data-ground-name="${ground.name}"><i class="fas fa-trash-alt fa-fw"></i> <!--<span th:text="#{ground.remove}"></span>--></button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- todo: to edit -->
+    <!--<div th:each="ground: ${grounds}" class="row mb-4" th:with="firstCol=${'ground.logoUrl' == '' ? 12 : 9},secondCol=${'ground.logoUrl' == '' ? 0 : 3}">-->
+        <!--<div th:classappend="${'col-' + firstCol}">-->
+            <!--<div class="btn-group float-right" sec:authorize="isAuthenticated()">-->
+            <!--</div>-->
+            <!--<div th:if="${ground.created}"><strong th:text="#{ground.created}"></strong>: <span th:text="${ground.created}"></span></div>-->
+            <!--<div th:if="${ground.websiteUrl != ''}"><strong th:text="#{ground.websiteURL}"></strong>: <a th:href="${ground.websiteUrl}" th:text="${ground.websiteUrl}" target="_blank"></a></div>-->
+            <!--<div th:if="${ground.description != ''}"><strong th:text="#{ground.description}"></strong>: <span th:utext="${ground.description}"></span></div>-->
+        <!--</div>-->
+        <!--<div th:classappend="${'col-' + secondCol}">-->
+            <!--<div th:if="${ground.logoUrl != ''}"><img class="img-fluid img-thumbnail" th:src="${ground.logoUrl}"/></div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <ul th:if="${totalPages > 1}" class="pagination justify-content-center">
+        <li th:classappend="${page == 0 ? 'disabled' : ''}" class="page-item">
+            <a class="page-link" th:href="@{'/administrator/grounds?page=0' + '&size=' + ${size} + '&direction=' + ${sortDirection} + '&column=' + ${sortColumn}}">First</a>
+        </li>
+        <li th:classappend="${page == 0 ? 'disabled' : ''}" class="page-item">
+            <a class="page-link" th:href="@{'/administrator/grounds?page=' + ${page - 1} + '&size=' + ${size} + '&direction=' + ${sortDirection} + '&column=' + ${sortColumn}}">Previous</a>
+        </li>
+        <li th:classappend="${page == i ? 'active' : ''}" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item">
+            <a class="page-link" th:href="@{'/administrator/grounds?page=' + ${i} + '&size=' + ${size} + '&direction=' + ${sortDirection} + '&column=' + ${sortColumn}}" th:text="${i + 1}"></a>
+        </li>
+        <li th:classappend="${page == totalPages - 1 ? 'disabled' : ''}" class="page-item">
+            <a class="page-link" th:href="@{'/administrator/grounds?page=' + ${page + 1} + '&size=' + ${size} + '&direction=' + ${sortDirection} + '&column=' + ${sortColumn}}">Next</a>
+        </li>
+        <li th:classappend="${page == totalPages - 1 ? 'disabled' : ''}" class="page-item">
+            <a class="page-link" th:href="@{'/administrator/grounds?page=' + ${totalPages - 1} + '&size=' + ${size} + '&direction=' + ${sortDirection} + '&column=' + ${sortColumn}}">Last</a>
+        </li>
+    </ul>
+    <form method="get" th:action="@{/administrator/grounds}">
+        <div class="form-row align-items-center justify-content-center">
+            <input type="hidden" name="page" th:value="${page}">
+            <div class="col-auto">
+                <label class="sr-only" for="size">Size</label>
+                <select class="custom-select" id="size" name="size" onchange="this.form.submit()">
+                    <option value="10" th:attrappend="selected=${size == 10 ? 'selected' : ''}">10</option>
+                    <option value="20" th:attrappend="selected=${size == 20 ? 'selected' : ''}">20</option>
+                    <option value="50" th:attrappend="selected=${size == 50 ? 'selected' : ''}">50</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="sortDirection">Direction</label>
+                <select class="custom-select" id="sortDirection" name="direction" onchange="this.form.submit()">
+                    <option value="ASC" th:attrappend="selected=${sortDirection == 'ASC' ? 'selected' : ''}">Ascending</option>
+                    <option value="DESC" th:attrappend="selected=${sortDirection == 'DESC' ? 'selected' : ''}">Descending</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="sortColumn">Column</label>
+                <select class="custom-select" id="sortColumn" name="column" onchange="this.form.submit()">
+                    <option value="id" th:attrappend="selected=${sortColumn == 'id' ? 'selected' : ''}" th:utext="#{ground.id}"></option>
+                    <option value="created" th:attrappend="selected=${sortColumn == 'created' ? 'selected' : ''}" th:utext="#{ground.created}"></option>
+                    <option value="name" th:attrappend="selected=${sortColumn == 'name' ? 'selected' : ''}" th:utext="#{ground.name}"></option>
+                    <!--<option value="startDate" th:attrappend="selected=${sortColumn == 'startDate' ? 'selected' : ''}">Start date</option>-->
+                    <!--<option value="durationInDays" th:attrappend="selected=${sortColumn == 'durationInDays' ? 'selected' : ''}">Duration (days)</option>-->
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="~{fragments :: modal}"></div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

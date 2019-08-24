@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Public Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="UTF-8">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+            width: 100%;
+            margin-left: 350px;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .ground-filter-item {
+            background-color: #f8f9fa;
+            border: 1px solid #dfdfdf;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+        #ground-info {
+            width: 350px;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: none;
+        }
+        .ground-filter {
+            width: 350px;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 1;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.3.1/css/all.css"/>
+
+    <script type="text/javascript" src="/webjars/momentjs/2.24.0/min/moment.min.js"></script>
+<!--    <script type="text/javascript" src="/webjars/momentjs/2.24.0/locale/uk.js"></script>-->
+<!--    <script type="text/javascript" src="/webjars/momentjs/2.24.0/locale/ru.js"></script>-->
+</head>
+<body>
+
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="position-absolute bg-white p-3 shadow-lg ground-filter">
+            <h3>Filters</h3>
+<!--            <div class="ground-filter-item">-->
+<!--                <select id="search-select" multiple="multiple">-->
+<!--                    <option value=""></option>-->
+<!--                    <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}" selected="selected"></option>-->
+<!--                </select>-->
+<!--                <input type="button" id="clearAll" value="Clear All">-->
+<!--            </div>-->
+            <div class="ground-filter-item mb-3">
+                <h5>Visibility</h5>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input visibility" id="markersVisibility" checked>
+                    <label class="custom-control-label" for="markersVisibility">Markers</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input visibility" id="boundsVisibility" checked>
+                    <label class="custom-control-label" for="boundsVisibility">Bounds</label>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header" id="headingOne">
+                    <button class="btn btn-primary btn-sm float-right" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        <i class="fas fa-chevron-circle-down"></i>
+                    </button>
+                    <h5 class="m-0" th:text="#{region}"></h5>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                    <div class="card-body">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input region" id="region-all" checked>
+                            <label class="custom-control-label" for="region-all">All</label>
+                        </div>
+                        <hr class="mt-1 mb-1"/>
+                        <div class="custom-control custom-checkbox" th:each="region : ${regions}">
+                            <input type="checkbox" class="custom-control-input region" th:id="${'region-' + region.id}" th:data-id="${region.id}" checked>
+                            <label class="custom-control-label" th:for="${'region-' + region.id}" th:text="${region.name}"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            <div class="ground-filter-item mb-3">-->
+<!--                <h5 th:text="#{ground.area}"></h5>-->
+<!--                <input type="range" class="custom-range" id="area">-->
+<!--            </div>-->
+            <div class="ground-filter-item mb-3">
+                <h5 th:text="#{ground.color}"></h5>
+                <table class="w-100 mb-2">
+                    <tr>
+                        <td>Unselected bounds</td>
+                        <td width="1%"><input type="color" id="colorUnselected"></td>
+                    </tr>
+                    <tr>
+                        <td>Selected bounds</td>
+                        <td><input type="color" id="colorSelected"></td>
+                    </tr>
+                </table>
+                <div class="text-right">
+                    <input type="button" class="btn btn-info btn-sm" id="colorReset" value="Reset">
+                    <input type="button" class="btn btn-primary btn-sm" id="colorRandom" value="Random">
+                </div>
+            </div>
+            <a href="/apk/hunting-grounds-1.0.apk">
+                <img src="/img/download-for-android.png" alt="Download for Android" width="100%"/>
+            </a>
+        </div>
+        <div id="map"></div>
+    </div>
+</div>
+
+<div class="card shadow-lg" id="ground-info">
+    <div class="card-body">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true" id="close-ground-info">&times;</span>
+        </button>
+        <span class="card-title font-weight-bold" id="ground-name"></span>
+        <hr class="mt-2 mb-2"/>
+        <p class="card-text">
+            <span id="ground-created">
+                <i class="fa-fw far fa-calendar-alt"></i> <span class="text"></span>
+            </span>
+            <span id="ground-area">
+                <br/><i class="fa-fw fas fa-ruler"></i> <span class="text"></span> <span th:text="#{ground.area.ha}"></span>
+            </span>
+            <span id="ground-address">
+                <br/><i class="fa-fw fas fa-map-marker-alt"></i> <span class="text"></span>
+            </span>
+        </p>
+        <a href="#" class="btn btn-primary" id="ground-link" sec:authorize="isAuthenticated()">Edit</a>
+    </div>
+</div>
+
+<script>
+    var map;
+    var selectedGround = null;
+    var grounds = [];
+    var markersVisibility = true;
+    var boundsVisibility = true;
+
+    var Color = Object({
+        Unselected: '#1d58b6',
+        Selected: '#d90000'
+    });
+    var Marker = Object({
+        Unselected: 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png',
+        Selected: 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red.png'
+    });
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 49.524282, lng: 31.004782},
+            zoom: 7,
+            fullscreenControl: false
+        });
+
+        $.ajax({
+            url: "/api/grounds",
+            type: "GET",
+            success: function(response) {
+                grounds = response;
+                grounds.forEach(function(ground) {
+                    ground.markerOnMap = null;
+                    if (ground.address.marker) {
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: {lat: ground.address.marker.lat, lng: ground.address.marker.lng},
+                            icon: Marker.Unselected
+                        });
+                        ground.markerOnMap = marker;
+                        google.maps.event.addDomListener(marker, 'click', function () {
+                            setHuntingGroundInfo(ground);
+                            highlightMarkerAndPolygons(ground);
+                        });
+                    }
+
+                    ground.polygonsOnMap = [];
+                    if (ground.polygons) {
+                        ground.polygons.forEach(function (bounds) {
+                            var paths = [];
+                            paths.push(bounds.outerBounds);
+                            if (bounds.innerBoundsList) {
+                                bounds.innerBoundsList.forEach(function (innerBound) {
+                                    paths.push(innerBound);
+                                });
+                            }
+
+                            var polygon = new google.maps.Polygon({
+                                map: map,
+                                paths: paths,
+                                strokeColor: Color.Unselected,
+                                strokeOpacity: 0.8,
+                                strokeWeight: 1.2,
+                                fillColor: Color.Unselected,
+                                fillOpacity: 0.35
+                            });
+                            ground.polygonsOnMap.push(polygon);
+                            google.maps.event.addDomListener(polygon, 'click', function () {
+                                if (selectedGround !== null && selectedGround.id === ground.id) {
+                                    return;
+                                }
+                                setHuntingGroundInfo(ground);
+                                highlightMarkerAndPolygons(ground);
+                            });
+                            google.maps.event.addDomListener(polygon, 'mouseover', function () {
+                                if (selectedGround !== null && selectedGround.id === ground.id) {
+                                    return;
+                                }
+                                highlightPolygons(ground, true, true);
+                            });
+                            google.maps.event.addDomListener(polygon, 'mouseout', function () {
+                                if (selectedGround !== null && selectedGround.id === ground.id) {
+                                    return;
+                                }
+                                highlightPolygons(ground, false, true);
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function setHuntingGroundInfo(ground) {
+        $("#ground-name").text(ground.name);
+        $("#ground-created > .text").text(moment(ground.created).format('MM/DD/YYYY'));
+        $("#ground-link").attr("href", '/administrator/grounds/edit/' + ground.id);
+
+        $("#ground-area > .text").text(ground.area);
+        if (ground.area) {
+            $("#ground-area").show();
+        } else {
+            $("#ground-area").hide();
+        }
+
+        $("#ground-address > .text").text(
+            (ground.address.street ? ground.address.street + ", " : "") +
+            (ground.address.city ? ground.address.city + ", " : "") +
+            (ground.address.subRegion ? ground.address.subRegion + ", " : "") +
+            (ground.address.regionName ? ground.address.regionName + ", " : "") +
+            (ground.address.country ? ground.address.country: "") +
+            (ground.address.zipCode ?  ", " + ground.address.zipCode : "")
+        );
+
+        $("#ground-info").show();
+    }
+
+    function highlightMarkerAndPolygons(ground) {
+        if (selectedGround === ground) {
+            return;
+        }
+        if (selectedGround !== null) {
+            highlightMarker(selectedGround, false);
+            highlightPolygons(selectedGround, false, false);
+        }
+        selectedGround = ground;
+        highlightMarker(selectedGround, true);
+        highlightPolygons(selectedGround, true, false);
+    }
+
+    function highlightMarker(ground, isHighlight) {
+        if (ground.markerOnMap !== null) {
+            if (isHighlight) {
+                ground.markerOnMap.setIcon(Marker.Selected);
+            } else {
+                ground.markerOnMap.setIcon(Marker.Unselected);
+            }
+        }
+    }
+
+    function highlightPolygons(ground, isHighlight, isOnlyContour) {
+        ground.polygonsOnMap.forEach(function (polygon) {
+            if (isOnlyContour === false) {
+                polygon.setOptions({fillColor: (isHighlight ? Color.Selected : Color.Unselected)});
+            }
+            polygon.setOptions({strokeColor: (isHighlight ? Color.Selected : Color.Unselected)});
+        });
+    }
+
+    function changeVisibilityByRegion(regionId, isVisible) {
+        grounds.forEach(function (ground) {
+            if (parseInt(ground.address.regionId) === regionId) {
+                if (ground.markerOnMap !== null) {
+                    ground.markerOnMap.setVisible(isVisible && markersVisibility);
+                }
+                ground.polygonsOnMap.forEach(function (polygon) {
+                    polygon.setVisible(isVisible && boundsVisibility);
+                });
+            }
+        });
+    }
+
+    function changeVisibility() {
+        grounds.forEach(function (ground) {
+            var isRegionChecked = $('#region-' + ground.address.regionId).is(':checked');
+            if (ground.markerOnMap !== null) {
+                ground.markerOnMap.setVisible(markersVisibility && isRegionChecked);
+            }
+            ground.polygonsOnMap.forEach(function (polygon) {
+                polygon.setVisible(boundsVisibility && isRegionChecked);
+            });
+        });
+    }
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    function changeColorsOfPolygons(colorForSelected, colorForUnselected) {
+        grounds.forEach(function (ground) {
+            ground.polygonsOnMap.forEach(function (polygon) {
+                if (selectedGround !== null && selectedGround.id === ground.id) {
+                    polygon.setOptions({
+                        fillColor: colorForSelected,
+                        strokeColor: colorForSelected
+                    });
+                } else {
+                    polygon.setOptions({
+                        fillColor: colorForUnselected,
+                        strokeColor: colorForUnselected
+                    });
+                }
+            });
+        });
+    }
+
+    $(function() {
+
+        $("#close-ground-info").click(function () {
+            $("#ground-info").hide();
+            highlightMarker(selectedGround, false);
+            highlightPolygons(selectedGround, false, false);
+            selectedGround = null;
+        });
+
+        $(".region").click(function () {
+            if ($(this).is(':checked')) {
+                changeVisibilityByRegion(parseInt($(this).data("id")), true)
+            } else {
+                changeVisibilityByRegion(parseInt($(this).data("id")), false)
+            }
+        });
+
+        $(".visibility").click(function () {
+            switch ($(this).attr('id')) {
+                case 'markersVisibility':
+                    markersVisibility = !markersVisibility;
+                    break;
+                case 'boundsVisibility':
+                    boundsVisibility = !boundsVisibility;
+                    break;
+            }
+            changeVisibility();
+        });
+
+        $("#colorUnselected").val(Color.Unselected);
+        $("#colorSelected").val(Color.Selected);
+
+        $("#colorUnselected").change(function () {
+            Color.Unselected = this.value;
+            changeColorsOfPolygons(Color.Selected, Color.Unselected);
+        });
+
+        $("#colorSelected").change(function () {
+            Color.Selected = this.value;
+            changeColorsOfPolygons(Color.Selected, Color.Unselected);
+        });
+
+        $("#colorRandom").click(function () {
+            Color.Unselected = getRandomColor();
+            Color.Selected = getRandomColor();
+            $("#colorUnselected").val(Color.Unselected);
+            $("#colorSelected").val(Color.Selected);
+            changeColorsOfPolygons(Color.Selected, Color.Unselected);
+        });
+
+        $("#colorReset").click(function () {
+            Color.Unselected = '#1d58b6';
+            Color.Selected = '#d90000';
+            $("#colorUnselected").val(Color.Unselected);
+            $("#colorSelected").val(Color.Selected);
+            changeColorsOfPolygons(Color.Selected, Color.Unselected);
+        });
+    });
+</script>
+<script th:src="@{https://maps.googleapis.com/maps/api/js(key=${google_map_api_key},callback='initMap')}"
+        async defer></script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head (title)" th:remove="tag">
+    <title th:text="${title} + ' - ' + #{sitename}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" th:if="${session.theme != null && session.theme != 'default'}" th:href="@{'/webjars/bootswatch/4.1.3/'+ ${session.theme} + '/bootstrap.min.css'}">
+    <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.3.1/css/all.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/template.css}"/>
+    <script type="text/javascript" src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/administrator}" th:text="#{sitename}"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active' : ''}">
+                        <a class="nav-link" th:href="@{/}"><i class="fas fa-map-marked-alt"></i> <span th:text="#{nav.map}"></span></a>
+                    </li>
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()" th:classappend="${#httpServletRequest.getRequestURI() == '/administrator/grounds' ? 'active' : ''}">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-cubes fa-fw"></i> <span th:text="#{nav.grounds}"></span></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" th:href="@{/administrator/grounds}"><i class="fas fa-list-alt fa-fw"></i> <span th:text="#{nav.grounds}"></span></a>
+                            <a class="dropdown-item" th:href="@{/administrator/grounds/add}"><i class="fas fa-plus-square fa-fw"></i> <span th:text="#{nav.grounds.add}"></span></a>
+                        </div>
+                    </li>
+                    <!--<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/contacts' ? 'active' : ''}">-->
+                        <!--<a class="nav-link" th:href="@{/contacts}"><i class="fas fa-map-marker-alt fa-fw"></i> <span th:text="#{nav.contacts}"></span></a>-->
+                    <!--</li>-->
+
+<!--                    <li class="nav-item dropdown" sec:authorize="isAnonymous()">-->
+<!--                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">-->
+<!--                            <i class="fa fa-user fa-fw"></i>-->
+<!--                        </a>-->
+<!--                        <div class="dropdown-menu">-->
+<!--                            <a class="dropdown-item" href="/administrator/login"><i class="fas fa-sign-in-alt fa-fw"></i> <span th:text="#{nav.login}"></span></a>-->
+<!--                            <a class="dropdown-item" href="/administrator/signup"><i class="fas fa-sign-in-alt fa-fw"></i> <span th:text="#{nav.signup}"></span></a>-->
+<!--                        </div>-->
+<!--                    </li>-->
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                            <i class="fa fa-user fa-fw"></i>
+                        </a>
+                        <div class="dropdown-menu">
+<!--                            <a sec:authorize="hasAnyAuthority('ADMIN', 'MODERATOR')" class="dropdown-item" href="/administrator/"><i class="fas fa-sign-in-alt fa-fw"></i> <span th:text="#{nav.adminpanel}"></span></a>-->
+<!--                            <a class="dropdown-item" href="/profile"><i class="fas fa-user fa-fw"></i> <span th:text="#{nav.profile}"></span></a>-->
+<!--                            <a class="dropdown-item" href="/settings"><i class="fas fa-cog fa-fw"></i> <span th:text="#{nav.settings}"></span></a>-->
+                            <form method="post" th:action="@{/administrator/logout}">
+                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt fa-fw"></i> <span th:text="#{nav.logout}"></span></button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-row mr-2" th:action="@{/administrator/international}" method="get">
+                    <div class="col-auto">
+                        <label class="sr-only" for="lang" th:text="#{lang.select}"></label>
+                        <select id="lang" name="lang" class="custom-select" onchange="this.form.submit()">
+                            <option th:text="#{lang.select}"></option>
+                            <option value="en" th:text="#{lang.en}"></option>
+                            <option value="uk" th:text="#{lang.uk}"></option>
+                        </select>
+                    </div>
+                </form>
+                <form class="form-row" th:action="@{/administrator/theme}" method="get">
+                    <div class="col-auto">
+                        <label class="sr-only" for="theme" th:text="#{theme.select}"></label>
+                        <select id="theme" name="theme" class="custom-select" onchange="this.form.submit()">
+                            <option value="" th:text="#{theme.select}"></option>
+                            <option value="cerulean">cerulean</option>
+                            <option value="cosmo">cosmo</option>
+                            <option value="cyborg">cyborg</option>
+                            <option value="darkly">darkly</option>
+                            <option value="default">default</option>
+                            <option value="flatly">flatly</option>
+                            <option value="journal">journal</option>
+                            <option value="litera">litera</option>
+                            <option value="lumen">lumen</option>
+                            <option value="lux">lux</option>
+                            <option value="materia">materia</option>
+                            <option value="minty">minty</option>
+                            <option value="pulse">pulse</option>
+                            <option value="sandstone">sandstone</option>
+                            <option value="simplex">simplex</option>
+                            <option value="sketchy">sketchy</option>
+                            <option value="slate">slate</option>
+                            <option value="solar">solar</option>
+                            <option value="spacelab">spacelab</option>
+                            <option value="superhero">superhero</option>
+                            <option value="united">united</option>
+                            <option value="yeti">yeti</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<footer th:fragment="footer">
+    <div class="bg-dark text-white p-2">
+        <div class="container" th:text="'&copy; 2019 ' + #{sitename}"></div>
+    </div>
+</footer>
+
+<div th:fragment="modal">
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <form th:action="@{/administrator/grounds/remove}" method="post">
+                        <input type="hidden" name="id" id="removeFormProjectID" value="">
+                        <button type="button" class="btn btn-danger" onclick="this.form.submit()" th:text="#{ground.remove}"></button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{ground.cancel}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/js/groundManageButtons.js}"></script>
+</div>
+
+</body>
+</html>
