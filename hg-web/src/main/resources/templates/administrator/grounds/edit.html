@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.grounds.edit})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.grounds.edit}"></h2>
+
+    <div class="alert alert-danger" th:if="${errors}">
+        <h5 th:text="#{error}"></h5>
+        <div th:each="error : ${errors}">
+            <div>Field <strong th:text="${error.getField()}"></strong> <span th:text="${error.getDefaultMessage()}"></span></div>
+        </div>
+    </div>
+    <div class="alert alert-danger" th:if="${error}">
+        <h5 th:text="#{error}"></h5>
+        <div th:text="#{${error}}"></div>
+    </div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-danger (${exception})}"></div>
+
+    <form method="post" th:action="@{/administrator/grounds/edit}" th:if="${ground}" th:object="${ground}" enctype="multipart/form-data">
+        <input type="hidden" class="form-control" id="groundId" th:field="*{id}" readonly>
+        <div class="form-group row">
+            <label for="created" class="col-sm-2 col-form-label" th:text="#{ground.created}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="created" th:value="${ground.created}" readonly>
+<!--                todo: (001) fix created date -->
+<!--                <input type="date" class="form-control" id="created" th:field="*{created}" readonly>-->
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label" th:text="#{ground.name}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="255" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="alias" class="col-sm-2 col-form-label" th:text="#{ground.alias}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="alias" th:field="*{alias}" maxlength="255" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="area" class="col-sm-2 col-form-label" th:text="#{ground.area}"></label>
+            <div class="col-sm-10">
+                <input type="number" min="0" step="0.01" class="form-control" id="area" th:field="*{area}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="kmlFile" class="col-sm-2 col-form-label" th:text="#{ground.kml}"></label>
+            <div class="col-sm-10">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="kmlFile" name="kmlFile" accept=".kml">
+                    <label class="custom-file-label" for="kmlFile" id="kmlFileName">Choose file...</label>
+                </div>
+            </div>
+            <script>
+                $('.custom-file-input').on('change', function() {
+                    var fileName = $(this).val().split('\\').pop();
+                    $(this).next('.custom-file-label').addClass("selected").html(fileName);
+                });
+            </script>
+        </div>
+        <div class="form-group row" th:if="${!#strings.isEmpty(ground.kml)}">
+            <label for="kml" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <textarea type="text" class="form-control" id="kml" name="kml" th:field="*{kml}" readonly rows="15"></textarea>
+            </div>
+        </div>
+        <div class="form-group row" th:if="${!#strings.isEmpty(ground.kml)}" >
+            <label class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <a class="btn btn-info" th:href="@{'/administrator/grounds/reverseinnerbounds/' + ${ground.id}}" title="Reverse inner bounds"><i class="fas fa-wrench"></i> Reverse inner bounds</a>
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('kml').value = ''"><i class="fas fa-backspace"></i> Clear KML</button>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label" th:text="#{ground.description}"></label>
+            <div class="col-sm-10">
+                <textarea type="text" class="form-control" id="description" name="description" th:field="*{description}" rows="10" maxlength="4000"></textarea>
+            </div>
+        </div>
+
+        <h4 th:text="#{address}"></h4>
+        <input type="hidden" th:field="*{address.id}">
+        <input type="hidden" th:field="*{address.type}">
+        <div class="form-group row">
+            <label for="zipCode" class="col-sm-2 col-form-label" th:text="#{address.zipCode}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="zipCode" th:field="*{address.zipCode}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="country" class="col-sm-2 col-form-label" th:text="#{country}"></label>
+            <div class="col-sm-10">
+                <select class="custom-select" id="country" th:field="*{address.countryId}" required>
+                    <option value="">- Select country -</option>
+                    <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="region" class="col-sm-2 col-form-label" th:text="#{region}"></label>
+            <div class="col-sm-10">
+                <select class="custom-select" id="region" th:field="*{address.regionId}" required>
+                    <option value="">- Select region -</option>
+                    <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="subRegion" class="col-sm-2 col-form-label" th:text="#{subRegion}"></label>
+            <div class="col-sm-10">
+                <select class="custom-select" id="subRegion" th:field="*{address.subRegionId}">
+                    <option value="">- Select subregion -</option>
+                    <option th:each="subRegion : ${subRegions}" th:value="${subRegion.id}" th:text="${subRegion.name}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="city" class="col-sm-2 col-form-label" th:text="#{address.city}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="city" th:field="*{address.city}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="street" class="col-sm-2 col-form-label" th:text="#{address.street}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="street" th:field="*{address.street}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="latitude" class="col-sm-2 col-form-label" th:text="#{address.latitude}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="latitude" th:field="*{address.latitude}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="longitude" class="col-sm-2 col-form-label" th:text="#{address.longitude}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="longitude" th:field="*{address.longitude}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="info" class="col-sm-2 col-form-label" th:text="#{address.info}"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="info" th:field="*{address.info}">
+            </div>
+        </div>
+<!--        <div class="form-group row">-->
+<!--            <label for="logoUrl" class="col-sm-2 col-form-label" th:text="#{ground.logoURL}"></label>-->
+<!--            <div class="col-sm-10">-->
+<!--                <input type="text" class="form-control" id="logoUrl" th:field="*{logoUrl}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-group row">-->
+<!--            <label for="websiteUrl" class="col-sm-2 col-form-label" th:text="#{ground.websiteURL}"></label>-->
+<!--            <div class="col-sm-10">-->
+<!--                <input type="text" class="form-control" id="websiteUrl" th:field="*{websiteUrl}">-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="form-group row">
+            <label class="col-sm-2"></label>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <span th:text="#{ground.save}"></span></button>
+                <button type="button" class="btn btn-danger removeGround" data-toggle="modal" data-target="#modal" th:data-ground-id="${ground.id}" th:data-ground-name="${ground.name}"><i class="fas fa-trash-alt fa-fw"></i> <span th:text="#{ground.remove}"></span></button>
+                <a class="btn btn-secondary" th:href="@{'/administrator/grounds/'}"><i class="fas fa-window-close"></i> <span th:text="#{ground.cancel}"></span></a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="~{fragments :: modal}"></div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+<script>
+    $(function() {
+        $('#country').change(function() {
+            var countryId = $(this).find(":selected").val();
+            $('#region').empty().append($('<option>', {value: "", text : "- Select region -"}));
+            $('#subRegion').empty().append($('<option>', {value: "", text : "- Select subregion -"}));
+            if (countryId === '') {
+                return
+            }
+            $.ajax({
+                url: "/api/regions/" + countryId,
+                type: "GET",
+                success: function(response) {
+                    var regions = response;
+                    regions.forEach(function(region) {
+                        $('#region').append($('<option>', {value: region.id, text : region.name}));
+                    });
+                }
+            });
+        });
+        $('#region').change(function() {
+            var regionId = $(this).find(":selected").val();
+            $('#subRegion').empty().append($('<option>', {value: "", text : "- Select subregion -"}));
+            if (regionId === '') {
+                return
+            }
+            $.ajax({
+                url: "/api/subregions/" + regionId,
+                type: "GET",
+                success: function(response) {
+                    var subRegions = response;
+                    subRegions.forEach(function(subRegion) {
+                        $('#subRegion').append($('<option>', {value: subRegion.id, text : subRegion.name}));
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

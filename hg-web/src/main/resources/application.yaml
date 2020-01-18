@@ -1,0 +1,35 @@
+application:
+  security:
+    google-maps-api-key: AIzaSyBNwBdFeQne4SJDZkfweYE1gn3mEoDcmvY
+
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL # remove all null objects from rest response
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hunting-grounds
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+        jdbc.lob.non_contextual_creation: true # Caused by: java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented
+        show_sql: true # deprecated
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+    hibernate:
+      ddl-auto: validate # update database if new columns added to java code; not updates existing columns
+    open-in-view: true # WARN spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        transaction:
+#          interceptor: off # show transactions
+#      hibernate:
+#        SQL: debug # show sql queries
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: trace # show parameter bindings for sql queries
