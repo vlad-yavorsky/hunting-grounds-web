@@ -1,0 +1,54 @@
+package ua.vlad.hg.core.entity;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Getter
+@Setter
+@Entity
+@Table
+@EqualsAndHashCode(of = {"id"})
+public class Address {
+
+    @RequiredArgsConstructor
+    public enum Type {
+        GROUND("G"),
+        USER("U");
+
+        @Getter
+        private final String code;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_id_seq")
+    @SequenceGenerator(name = "address_id_seq", sequenceName = "address_id_seq", allocationSize = 1)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Country country;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Region region;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Region subRegion;
+
+    private String city;
+
+    private String info;
+
+    private String latitude;
+
+    private String longitude;
+
+    private String street;
+
+    private Address.Type type;
+
+    private String zipCode;
+
+}

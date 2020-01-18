@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.adminpanel})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.adminpanel}"></h2>
+</div>
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-group">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Map</h5>
+                        <p class="card-text">View map of hunting grounds.</p>
+                        <a th:href="@{/}" class="btn btn-primary">Map</a>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Hunting Grounds</h5>
+                        <p class="card-text">View list of hunting grounds. Edit or add new items.</p>
+                        <a th:href="@{/administrator/grounds}" class="btn btn-primary">List</a>
+                        <a th:href="@{/administrator/grounds/add}" class="btn btn-primary">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

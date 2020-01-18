@@ -1,0 +1,374 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.0.1
+      author: Vlad
+      changes:
+
+        - createSequence:
+            sequenceName: user_id_seq
+
+        - createSequence:
+            sequenceName: region_id_seq
+
+        - createSequence:
+            sequenceName: ground_id_seq
+
+        - createSequence:
+            sequenceName: country_id_seq
+
+        - createSequence:
+            sequenceName: contact_id_seq
+
+        - createSequence:
+            sequenceName: address_id_seq
+
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: address_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type
+                  type: VARCHAR(1)
+              - column:
+                  name: zip_code
+                  type: VARCHAR(255)
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+              - column:
+                  name: street
+                  type: VARCHAR(255)
+              - column:
+                  name: latitude
+                  type: VARCHAR(255)
+              - column:
+                  name: longitude
+                  type: VARCHAR(255)
+              - column:
+                  name: info
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: country_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: region_id
+                  type: BIGINT
+              - column:
+                  name: sub_region_id
+                  type: BIGINT
+
+        - createTable:
+            tableName: contact
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: contact_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type
+                  type: VARCHAR(1)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: data
+                  type: VARCHAR(255)
+              - column:
+                  name: info
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: address_id
+                  type: BIGINT
+
+        - createTable:
+            tableName: country
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: country_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: iso_alpha3code
+                  type: VARCHAR(3)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: iso_number
+                  type: VARCHAR(3)
+
+        - createTable:
+            tableName: ground
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: ground_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: alias
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+              - column:
+                  name: kml
+                  type: VARCHAR(1048576)
+              - column:
+                  name: area
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: VARCHAR(4000)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: address_id
+                  type: BIGINT
+        - addUniqueConstraint:
+            tableName: ground
+            columnNames: alias
+            constraintName: ground_alias_uindex
+
+        - createTable:
+            tableName: region
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: region_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: country_id
+                  type: BIGINT
+              - column:
+                  name: parent_region_id
+                  type: BIGINT
+
+        - createTable:
+            tableName: role
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: role_pkey
+                  name: name
+                  type: VARCHAR(20)
+
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: username
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  name: account_non_expired
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: account_non_locked
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: credentials_non_expired
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: enabled
+                  type: BOOLEAN
+
+        - createTable:
+            tableName: user_role
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_role_pk
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_role_pk
+                  name: role
+                  type: VARCHAR(255)
+
+        - addForeignKeyConstraint:
+            baseColumnNames: region_id
+            baseTableName: address
+            constraintName: address_region_id_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: region
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: ground
+            constraintName: ground_address_id_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: address
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: country_id
+            baseTableName: region
+            constraintName: region_country_id_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: country
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_role
+            constraintName: user_role_user_id_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: country_id
+            baseTableName: address
+            constraintName: address_country_id_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: country
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: parent_region_id
+            baseTableName: region
+            constraintName: region_region_id_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: region
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: sub_region_id
+            baseTableName: address
+            constraintName: address_sub_region_region_id_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: region
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: contact
+            constraintName: contact_address_id_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: address
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: role
+            baseTableName: user_role
+            constraintName: user_role_role_name_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: name
+            referencedTableName: role
+            validate: true
