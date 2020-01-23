@@ -29,10 +29,6 @@
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <postgresql.version>42.2.9</postgresql.version>
         <liquibase.version>3.8.5</liquibase.version>
-
-        <JDBC_DATABASE_URL>jdbc:postgresql://localhost:5432/hunting-grounds</JDBC_DATABASE_URL>
-        <JDBC_DATABASE_USERNAME>postgres</JDBC_DATABASE_USERNAME>
-        <JDBC_DATABASE_PASSWORD>postgres</JDBC_DATABASE_PASSWORD>
     </properties>
 
     <dependencyManagement>
