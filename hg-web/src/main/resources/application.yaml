@@ -1,6 +1,6 @@
 application:
   security:
-    google-maps-api-key: AIzaSyBNwBdFeQne4SJDZkfweYE1gn3mEoDcmvY
+    google-maps-api-key: ${google_maps_api_key}
 
 spring:
   jackson:
