@@ -75,7 +75,6 @@
                             <arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
                             <arg>-Amapstruct.suppressGeneratorVersionInfoComment=true</arg>
                             <arg>-Amapstruct.defaultComponentModel=spring</arg>
-                            <arg>-Amapstruct.unmappedTargetPolicy=IGNORE</arg>
                         </compilerArgs>
                     </configuration>
                 </plugin>

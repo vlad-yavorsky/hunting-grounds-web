@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,14 +29,17 @@ public class Address {
     @SequenceGenerator(name = "address_id_seq", sequenceName = "address_id_seq", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Country country;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Region region;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Region subRegion;
+
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    private List<Contact> contacts;
 
     private String city;
 

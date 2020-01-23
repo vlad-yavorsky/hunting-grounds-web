@@ -6,9 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ua.vlad.hg.core.exception.ApplicationException;
+import ua.vlad.hg.rest.controller.RestApiController;
 
 @Slf4j
-@RestControllerAdvice("ua.vlad.hg.rest.controller")
+@RestControllerAdvice(basePackageClasses = RestApiController.class)
 public class RestControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)

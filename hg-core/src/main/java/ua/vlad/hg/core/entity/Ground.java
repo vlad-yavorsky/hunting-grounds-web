@@ -14,14 +14,19 @@ import java.util.Date;
 @Entity
 @Table
 @EqualsAndHashCode(of = {"id"})
+@NamedEntityGraph(name = Ground.Graph.ADDRESS, attributeNodes = @NamedAttributeNode(value = "address"))
 public class Ground {
+
+    public static final class Graph {
+        public static final String ADDRESS = "ground.address";
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ground_id_seq")
     @SequenceGenerator(name = "ground_id_seq", sequenceName = "ground_id_seq", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     private Address address;
 
     @NotBlank

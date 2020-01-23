@@ -20,7 +20,12 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraph(name = User.Graph.ROLE, attributeNodes = @NamedAttributeNode(value = "role"))
 public class User implements UserDetails {
+
+    public static final class Graph {
+        public static final String ROLE = "user.role";
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
