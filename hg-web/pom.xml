@@ -130,13 +130,21 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/hunting-grounds</url>
-                    <username>postgres</username>
-                    <password>postgres</password>
+                    <url>${env.JDBC_DATABASE_URL}</url>
+                    <username>${env.JDBC_DATABASE_USERNAME}</username>
+                    <password>${env.JDBC_DATABASE_PASSWORD}</password>
                     <driver>org.postgresql.Driver</driver>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
                     <outputChangeLogFile>src/main/resources/db/output/outputChangeLog.yaml</outputChangeLogFile>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
