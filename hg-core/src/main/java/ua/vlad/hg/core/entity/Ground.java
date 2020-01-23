@@ -1,8 +1,6 @@
 package ua.vlad.hg.core.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -24,6 +22,7 @@ import java.util.Date;
         }))
 public class Ground {
 
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Graph {
         public static final String ADDRESS = "ground.address";
         public static final String ADDRESS_FULL = "ground.address.full";
