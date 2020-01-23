@@ -14,23 +14,14 @@ import java.util.Date;
 @Entity
 @Table
 @EqualsAndHashCode(of = {"id"})
-@NamedEntityGraphs({
-        @NamedEntityGraph(
-                name = Ground.Graph.ADDRESS,
-                attributeNodes = @NamedAttributeNode(value = "address")
-        ),
-        @NamedEntityGraph(
-                name = Ground.Graph.ADDRESS_FULL,
-                attributeNodes = @NamedAttributeNode(value = "address", subgraph = "address.full"),
-                subgraphs = @NamedSubgraph(
-                        name = "address.full",
-                        attributeNodes = {
-                                @NamedAttributeNode("country"),
-                                @NamedAttributeNode("region"),
-                                @NamedAttributeNode("subRegion")
-                        })
-        )
-})
+@NamedEntityGraph(name = Ground.Graph.ADDRESS, attributeNodes = @NamedAttributeNode(value = "address"))
+@NamedEntityGraph(name = Ground.Graph.ADDRESS_FULL,
+        attributeNodes = @NamedAttributeNode(value = "address", subgraph = "address.full"),
+        subgraphs = @NamedSubgraph(name = "address.full", attributeNodes = {
+                @NamedAttributeNode("country"),
+                @NamedAttributeNode("region"),
+                @NamedAttributeNode("subRegion")
+        }))
 public class Ground {
 
     public static final class Graph {
