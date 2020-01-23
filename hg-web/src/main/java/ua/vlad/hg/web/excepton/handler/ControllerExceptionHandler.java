@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.vlad.hg.core.exception.ApplicationException;
+import ua.vlad.hg.web.controller.AdministratorController;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@ControllerAdvice("ua.vlad.hg.web.controller")
+@ControllerAdvice(basePackageClasses = AdministratorController.class)
 public class ControllerExceptionHandler {
 
     private static final String ERROR_PAGE = "/administrator/error";

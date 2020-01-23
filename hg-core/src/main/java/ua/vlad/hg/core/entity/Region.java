@@ -19,7 +19,7 @@ public class Region {
     @SequenceGenerator(name = "region_id_seq", sequenceName = "region_id_seq", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Country country;
 
     @ManyToOne(fetch = FetchType.LAZY)

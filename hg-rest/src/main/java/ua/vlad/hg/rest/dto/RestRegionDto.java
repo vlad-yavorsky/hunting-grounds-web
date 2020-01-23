@@ -9,7 +9,5 @@ public class RestRegionDto {
 
     private Long id;
     private String name;
-    private String country;
-    private String parentRegion;
 
 }

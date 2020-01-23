@@ -19,7 +19,7 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: validate
-    open-in-view: true # todo: disable for optimization
+    open-in-view: false
 
 logging:
   level:
