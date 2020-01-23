@@ -27,12 +27,8 @@ public class GroundService {
         return groundRepository.findAll(pageable);
     }
 
-    public List<Ground> findAll() {
-        return groundRepository.findAll();
-    }
-
     public Ground find(Long id) {
-        return groundRepository.findById(id)
+        return groundRepository.findFetchAddressById(id)
                 .orElseThrow(() -> new ApplicationException(ExceptionCode.GROUND_NOT_FOUND, id));
     }
 

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ua.vlad.hg.core.service.GroundService;
 import ua.vlad.hg.core.service.RegionService;
 import ua.vlad.hg.rest.dto.RestCountryDto;
 import ua.vlad.hg.rest.dto.RestGroundDto;
@@ -13,6 +12,7 @@ import ua.vlad.hg.rest.dto.RestRegionDto;
 import ua.vlad.hg.rest.mapper.RestCountryMapper;
 import ua.vlad.hg.rest.mapper.RestGroundMapper;
 import ua.vlad.hg.rest.mapper.RestRegionMapper;
+import ua.vlad.hg.rest.service.RestGroundService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RestApiController {
 
-    private final GroundService groundService;
+    private final RestGroundService restGroundService;
     private final RegionService regionService;
     private final RestGroundMapper groundRestMapper;
     private final RestRegionMapper regionRestMapper;
@@ -30,12 +30,12 @@ public class RestApiController {
 
     @GetMapping("/ground/{groundId}")
     public RestGroundDto getGround(@PathVariable Long groundId) {
-        return groundRestMapper.toRestDto(groundService.find(groundId));
+        return groundRestMapper.toRestDto(restGroundService.find(groundId));
     }
 
     @GetMapping("/grounds")
     public List<RestGroundDto> getGrounds() {
-        return groundService.findAll()
+        return restGroundService.findAll()
                 .stream()
                 .map(groundRestMapper::toRestDto)
                 .collect(Collectors.toList());

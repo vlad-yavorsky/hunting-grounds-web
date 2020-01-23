@@ -12,10 +12,13 @@ import java.util.Optional;
 public interface GroundRepository extends JpaRepository<Ground, Long> {
 
     @EntityGraph(Ground.Graph.ADDRESS)
-    Optional<Ground> findById(Long id);
+    Optional<Ground> findFetchAddressById(Long id);
 
-    @EntityGraph(Ground.Graph.ADDRESS)
-    List<Ground> findAll();
+    @EntityGraph(Ground.Graph.ADDRESS_FULL)
+    Optional<Ground> findFetchFullAddressById(Long id);
+
+    @EntityGraph(Ground.Graph.ADDRESS_FULL)
+    List<Ground> findAllFetchFullAddressBy();
 
     Optional<Ground> findByAlias(String alias);
 
