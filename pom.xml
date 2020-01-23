@@ -52,6 +52,14 @@
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
                     <version>${liquibase.version}</version>
+                    <configuration>
+                        <url>${env.JDBC_DATABASE_URL}</url>
+                        <username>${env.JDBC_DATABASE_USERNAME}</username>
+                        <password>${env.JDBC_DATABASE_PASSWORD}</password>
+                        <driver>org.postgresql.Driver</driver>
+                        <changeLogFile>hg-core/src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                        <outputChangeLogFile>hg-core/src/main/resources/db/output/outputChangeLog.yaml</outputChangeLogFile>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
