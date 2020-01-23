@@ -59,9 +59,9 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <configuration>
-                    <url>${JDBC_DATABASE_URL}</url>
-                    <username>${JDBC_DATABASE_USERNAME}</username>
-                    <password>${JDBC_DATABASE_PASSWORD}</password>
+                    <url>${env.JDBC_DATABASE_URL}</url>
+                    <username>${env.JDBC_DATABASE_USERNAME}</username>
+                    <password>${env.JDBC_DATABASE_PASSWORD}</password>
                     <driver>org.postgresql.Driver</driver>
                     <changeLogFile>db/changelog/db.changelog-master.yaml</changeLogFile>
                     <outputChangeLogFile>db/output/db.output-changelog.yaml</outputChangeLogFile>
