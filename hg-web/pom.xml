@@ -19,7 +19,6 @@
         <hg.rest.version>0.0.1</hg.rest.version>
 
         <thymeleaf.extras.version>3.0.4.RELEASE</thymeleaf.extras.version>
-        <postgresql.version>42.2.9</postgresql.version>
         <jquery.version>3.4.1</jquery.version>
         <bootstrap.version>4.2.1</bootstrap.version>
         <bootswatch.version>4.2.1</bootswatch.version>
@@ -64,15 +63,8 @@
 
         <!-- Database -->
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-            <version>${postgresql.version}</version>
         </dependency>
         <!-- Database -->
 

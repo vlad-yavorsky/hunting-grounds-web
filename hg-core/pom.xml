@@ -42,6 +42,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
@@ -50,6 +55,18 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <configuration>
+                    <url>${JDBC_DATABASE_URL}</url>
+                    <username>${JDBC_DATABASE_USERNAME}</username>
+                    <password>${JDBC_DATABASE_PASSWORD}</password>
+                    <driver>org.postgresql.Driver</driver>
+                    <changeLogFile>db/changelog/db.changelog-master.yaml</changeLogFile>
+                    <outputChangeLogFile>db/output/db.output-changelog.yaml</outputChangeLogFile>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
