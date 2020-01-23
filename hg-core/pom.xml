@@ -65,6 +65,7 @@
                     <driver>org.postgresql.Driver</driver>
                     <changeLogFile>db/changelog/db.changelog-master.yaml</changeLogFile>
                     <outputChangeLogFile>db/output/db.output-changelog.yaml</outputChangeLogFile>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                 </configuration>
             </plugin>
             <plugin>
