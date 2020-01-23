@@ -25,7 +25,6 @@
         <bootswatch.version>4.2.1</bootswatch.version>
         <font.awesome.version>5.12.0</font.awesome.version>
         <momentjs.version>2.24.0</momentjs.version>
-        <liquibase.version>3.8.4</liquibase.version>
     </properties>
 
     <dependencies>
@@ -128,7 +127,6 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase.version}</version>
                 <configuration>
                     <url>${env.JDBC_DATABASE_URL}</url>
                     <username>${env.JDBC_DATABASE_USERNAME}</username>
