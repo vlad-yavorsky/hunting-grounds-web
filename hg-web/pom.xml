@@ -17,7 +17,6 @@
     <properties>
         <hg.core.version>0.0.1</hg.core.version>
         <hg.rest.version>0.0.1</hg.rest.version>
-
         <thymeleaf.extras.version>3.0.4.RELEASE</thymeleaf.extras.version>
         <jquery.version>3.4.1</jquery.version>
         <bootstrap.version>4.2.1</bootstrap.version>

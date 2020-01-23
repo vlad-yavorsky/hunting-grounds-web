@@ -15,7 +15,7 @@
     <version>0.0.1</version>
 
     <properties>
-        <jsoup.version>1.11.3</jsoup.version>
+        <jsoup.version>1.12.1</jsoup.version>
     </properties>
 
     <dependencies>
