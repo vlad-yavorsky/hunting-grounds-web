@@ -1,6 +1,6 @@
 -- country
 INSERT INTO country(id, iso_alpha3code, iso_number, name)
-VALUES (NEXTVAL('country_id_seq'), 'UKR', '803', 'Ukraine');
+VALUES (NEXTVAL('country_id_seq'), 'UKR', '803', 'Україна');
 
 -- region
 INSERT INTO region (id, name, country_id)
