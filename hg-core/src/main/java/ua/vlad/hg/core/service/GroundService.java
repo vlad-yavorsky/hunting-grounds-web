@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ua.vlad.hg.core.entity.Address;
@@ -14,10 +15,10 @@ import ua.vlad.hg.core.repository.GroundRepository;
 import ua.vlad.hg.core.util.KmlDocument;
 
 import java.io.IOException;
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GroundService {
 
     private final GroundRepository groundRepository;
@@ -37,15 +38,21 @@ public class GroundService {
     }
 
     public Ground create(Ground ground, MultipartFile kmlFile) throws IOException {
-        ground.setCreated(new Date());
         ground.getAddress().setType(Address.Type.GROUND);
-        ground.setKml(!StringUtils.isEmpty(kmlFile) ? new String(kmlFile.getBytes()) : null);
+        if (!kmlFile.isEmpty()) {
+            ground.setKml(new String(kmlFile.getBytes()));
+        }
         return groundRepository.save(ground);
     }
 
-    public void update(Ground ground, MultipartFile kmlFile) throws IOException {
-        ground.setCreated(new Date()); // todo: (001) fix created date
-        ground.setKml(!StringUtils.isEmpty(kmlFile) ? new String(kmlFile.getBytes()) : null);
+    public void update(Ground ground, MultipartFile kmlFile, boolean isRemoveKml, boolean isReverseInnerBounds) throws IOException {
+        if (!kmlFile.isEmpty()) {
+            ground.setKml(new String(kmlFile.getBytes()));
+        } else if (isRemoveKml) {
+            ground.setKml(null);
+        } else if (isReverseInnerBounds) {
+            ground.setKml(KmlDocument.of(ground.getKml()).reverseInnerBounds());
+        }
         groundRepository.save(ground);
     }
 

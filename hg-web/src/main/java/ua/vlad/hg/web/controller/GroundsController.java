@@ -99,7 +99,7 @@ public class GroundsController {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", result.getFieldErrors());
         } else {
-            groundService.update(groundMapper.toEntity(groundUpdateDto), kmlFile);
+            groundService.update(groundMapper.toEntity(groundUpdateDto), kmlFile, groundUpdateDto.isRemoveKml(), groundUpdateDto.isReverseInnerBounds());
             redirectAttributes.addFlashAttribute("success", "ground.edit.success");
         }
         return "redirect:/administrator/grounds/edit/" + groundUpdateDto.getId();

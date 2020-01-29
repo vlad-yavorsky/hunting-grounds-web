@@ -26,14 +26,6 @@
     <form method="post" th:action="@{/administrator/grounds/edit}" th:if="${ground}" th:object="${ground}" enctype="multipart/form-data">
         <input type="hidden" class="form-control" id="groundId" th:field="*{id}" readonly>
         <div class="form-group row">
-            <label for="created" class="col-sm-2 col-form-label" th:text="#{ground.created}"></label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="created" th:value="${ground.created}" readonly>
-<!--                todo: (001) fix created date -->
-<!--                <input type="date" class="form-control" id="created" th:field="*{created}" readonly>-->
-            </div>
-        </div>
-        <div class="form-group row">
             <label for="name" class="col-sm-2 col-form-label" th:text="#{ground.name}"></label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="255" required>
@@ -54,29 +46,58 @@
         <div class="form-group row">
             <label for="kmlFile" class="col-sm-2 col-form-label" th:text="#{ground.kml}"></label>
             <div class="col-sm-10">
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="kmlFile" name="kmlFile" accept=".kml">
-                    <label class="custom-file-label" for="kmlFile" id="kmlFileName">Choose file...</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="kmlFile" name="kmlFile" accept=".kml">
+                        <label class="custom-file-label" for="kmlFile" id="kmlFileName">Choose file...</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="kmlClear">Clear</button>
+                    </div>
                 </div>
             </div>
             <script>
-                $('.custom-file-input').on('change', function() {
-                    var fileName = $(this).val().split('\\').pop();
-                    $(this).next('.custom-file-label').addClass("selected").html(fileName);
+                $(function() {
+                    $('#kmlFile').on('change', function() {
+                        const fileName = $(this).val().split('\\').pop();
+                        $('#kmlFileName').html(fileName);
+                        $('#reverse-inner-borders').prop('disabled', true);
+                        $('#remove-kml').prop('disabled', true);
+                    });
+                    $('#kmlClear').click(function() {
+                        $('kmlFile').val("");
+                        $('#kmlFileName').html("Choose file...");
+                        $('#reverse-inner-borders').prop('disabled', false);
+                        $('#remove-kml').prop('disabled', false);
+                    });
                 });
             </script>
         </div>
         <div class="form-group row" th:if="${!#strings.isEmpty(ground.kml)}">
             <label for="kml" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
-                <textarea type="text" class="form-control" id="kml" name="kml" th:field="*{kml}" readonly rows="15"></textarea>
-            </div>
-        </div>
-        <div class="form-group row" th:if="${!#strings.isEmpty(ground.kml)}" >
-            <label class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <a class="btn btn-info" th:href="@{'/administrator/grounds/reverseinnerbounds/' + ${ground.id}}" title="Reverse inner bounds"><i class="fas fa-wrench"></i> Reverse inner bounds</a>
-                <button type="button" class="btn btn-secondary" onclick="document.getElementById('kml').value = ''"><i class="fas fa-backspace"></i> Clear KML</button>
+                <script>
+                    $(function() {
+                        $('#remove-kml').change(function() {
+                            $('#reverse-inner-borders').prop('checked', false);
+                        });
+                        $('#reverse-inner-borders').change(function() {
+                            $('#remove-kml').prop('checked', false);
+                        });
+                    });
+                </script>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="remove-kml" th:field="*{removeKml}">
+                    <label class="custom-control-label" for="remove-kml">Remove KML File</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="reverse-inner-borders" th:field="*{reverseInnerBounds}">
+                    <label class="custom-control-label" for="reverse-inner-borders">Reverse inner bounds</label>
+                </div>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show content of KML file</button>
+                <div class="collapse" id="collapseExample">
+                    <textarea type="text" class="form-control" id="kml" name="kml" th:field="*{kml}" readonly rows="15"></textarea>
+                </div>
             </div>
         </div>
         <div class="form-group row">
@@ -182,7 +203,7 @@
 <script>
     $(function() {
         $('#country').change(function() {
-            var countryId = $(this).find(":selected").val();
+            const countryId = $(this).find(":selected").val();
             $('#region').empty().append($('<option>', {value: "", text : "- Select region -"}));
             $('#subRegion').empty().append($('<option>', {value: "", text : "- Select subregion -"}));
             if (countryId === '') {
@@ -191,8 +212,7 @@
             $.ajax({
                 url: "/api/regions/" + countryId,
                 type: "GET",
-                success: function(response) {
-                    var regions = response;
+                success: function(regions) {
                     regions.forEach(function(region) {
                         $('#region').append($('<option>', {value: region.id, text : region.name}));
                     });
@@ -200,7 +220,7 @@
             });
         });
         $('#region').change(function() {
-            var regionId = $(this).find(":selected").val();
+            const regionId = $(this).find(":selected").val();
             $('#subRegion').empty().append($('<option>', {value: "", text : "- Select subregion -"}));
             if (regionId === '') {
                 return
@@ -208,8 +228,7 @@
             $.ajax({
                 url: "/api/subregions/" + regionId,
                 type: "GET",
-                success: function(response) {
-                    var subRegions = response;
+                success: function(subRegions) {
                     subRegions.forEach(function(subRegion) {
                         $('#subRegion').append($('<option>', {value: subRegion.id, text : subRegion.name}));
                     });

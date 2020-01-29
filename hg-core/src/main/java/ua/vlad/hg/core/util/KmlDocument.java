@@ -84,7 +84,10 @@ public class KmlDocument {
                 }
             }
         }
-        return Polygon.builder().innerBoundsList(innerBoundsList).outerBounds(outerBounds).build();
+        return Polygon.builder()
+                .innerBoundsList(innerBoundsList)
+                .outerBounds(outerBounds)
+                .build();
     }
 
     private List<LatLng> extractBounds(final Element element) {

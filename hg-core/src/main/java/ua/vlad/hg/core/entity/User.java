@@ -1,7 +1,6 @@
 package ua.vlad.hg.core.entity;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.vlad.hg.core.util.Role;
 
@@ -17,9 +16,6 @@ import java.util.Set;
 @Entity
 @Table
 @EqualsAndHashCode(of = {"id"})
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @NamedEntityGraph(name = User.Graph.ROLE, attributeNodes = @NamedAttributeNode(value = "role"))
 public class User implements UserDetails {
 
@@ -43,7 +39,7 @@ public class User implements UserDetails {
     @NotBlank
     private String password;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") // todo: (001) fix created date
+    @Column(insertable = false, updatable = false)
     private Date created;
 
     private boolean accountNonExpired;
