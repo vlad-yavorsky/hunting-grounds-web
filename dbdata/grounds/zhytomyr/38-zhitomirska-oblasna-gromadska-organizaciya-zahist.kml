@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name><![CDATA[Житомирська обласна громадська організація "Захист"]]></name>
+    <Style id="poly-0288D1-1200-76-normal">
+      <LineStyle>
+        <color>ffd18802</color>
+        <width>1.2</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>4cd18802</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+    </Style>
+    <Style id="poly-0288D1-1200-76-highlight">
+      <LineStyle>
+        <color>ffd18802</color>
+        <width>1.8</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>4cd18802</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+    </Style>
+    <StyleMap id="poly-0288D1-1200-76">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#poly-0288D1-1200-76-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#poly-0288D1-1200-76-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name><![CDATA[Житомирська обласна громадська організація "Захист"]]></name>
+      <description><![CDATA[2014 р.<br>3152,8 га.]]></description>
+      <styleUrl>#poly-0288D1-1200-76</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <tessellate>1</tessellate>
+            <coordinates>
+              27.644269,50.636754,0
+              27.644494,50.635778,0
+              27.64443,50.635087,0
+              27.648893,50.634713,0
+              27.654386,50.633162,0
+              27.660223,50.632236,0
+              27.670222,50.632535,0
+              27.68035,50.637163,0
+              27.689148,50.640266,0
+              27.740281,50.666636,0
+              27.737798,50.667589,0
+              27.733083,50.671478,0
+              27.728179,50.673341,0
+              27.723598,50.675816,0
+              27.718502,50.677842,0
+              27.707473,50.67774,0
+              27.704276,50.685864,0
+              27.678167,50.6814,0
+              27.673357,50.675111,0
+              27.668883,50.675614,0
+              27.664758,50.674784,0
+              27.66159,50.674988,0
+              27.659495,50.674159,0
+              27.655633,50.674621,0
+              27.653111,50.674254,0
+              27.652755,50.673849,0
+              27.651647,50.674043,0
+              27.648444,50.674213,0
+              27.648874,50.664421,0
+              27.652125,50.6626,0
+              27.653767,50.661567,0
+              27.652125,50.661608,0
+              27.650917,50.655804,0
+              27.649948,50.653737,0
+              27.649279,50.653113,0
+              27.642578,50.652544,0
+              27.63702,50.652735,0
+              27.636377,50.65264,0
+              27.634124,50.650612,0
+              27.644269,50.636754,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name><![CDATA[ТОВ МРК "Військових ветеранів"]]></name>
+    <Style id="poly-0288D1-1200-76-normal">
+      <LineStyle>
+        <color>ffd18802</color>
+        <width>1.2</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>4cd18802</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+    </Style>
+    <Style id="poly-0288D1-1200-76-highlight">
+      <LineStyle>
+        <color>ffd18802</color>
+        <width>1.8</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>4cd18802</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+    </Style>
+    <StyleMap id="poly-0288D1-1200-76">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#poly-0288D1-1200-76-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#poly-0288D1-1200-76-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name><![CDATA[ТОВ МРК "Військових ветеранів"]]></name>
+      <description><![CDATA[2015 р.<br>3581,8 га.]]></description>
+      <styleUrl>#poly-0288D1-1200-76</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <tessellate>1</tessellate>
+            <coordinates>
+              27.508845,50.664585,0
+              27.515904,50.663089,0
+              27.524123,50.662735,0
+              27.531676,50.659906,0
+              27.534852,50.65743,0
+              27.535924,50.654872,0
+              27.547297,50.652396,0
+              27.559442,50.651553,0
+              27.56,50.648587,0
+              27.59253,50.635905,0
+              27.605147,50.643471,0
+              27.611155,50.640586,0
+              27.612958,50.647662,0
+              27.612786,50.657294,0
+              27.608988,50.657512,0
+              27.605126,50.6586,0
+              27.598559,50.664381,0
+              27.58974,50.671956,0
+              27.585947,50.677415,0
+              27.570821,50.68717,0
+              27.557962,50.701606,0
+              27.547586,50.69865,0
+              27.546288,50.700057,0
+              27.533478,50.695558,0
+              27.521033,50.698766,0
+              27.517621,50.702544,0
+              27.504492,50.69946,0
+              27.492159,50.695328,0
+              27.493156,50.694173,0
+              27.470607,50.687511,0
+              27.496593,50.669494,0
+              27.50245,50.666842,0
+              27.50627,50.665945,0
+              27.508845,50.664585,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

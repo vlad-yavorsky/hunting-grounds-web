@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name><![CDATA[ПП "Соколине полісся"]]></name>
+    <Style id="poly-0288D1-1200-76-normal">
+      <LineStyle>
+        <color>ffd18802</color>
+        <width>1.2</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>4cd18802</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+    </Style>
+    <Style id="poly-0288D1-1200-76-highlight">
+      <LineStyle>
+        <color>ffd18802</color>
+        <width>1.8</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>4cd18802</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+    </Style>
+    <StyleMap id="poly-0288D1-1200-76">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#poly-0288D1-1200-76-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#poly-0288D1-1200-76-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name><![CDATA[ПП "Соколине полісся"]]></name>
+      <description>11800 га.</description>
+      <styleUrl>#poly-0288D1-1200-76</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <tessellate>1</tessellate>
+            <coordinates>
+              29.511166,51.060494,0
+              29.496231,51.04787,0
+              29.476318,51.030167,0
+              29.465332,51.01721,0
+              29.470138,51.009434,0
+              29.466019,51.004898,0
+              29.468079,50.985883,0
+              29.478722,50.977886,0
+              29.449196,50.985234,0
+              29.443016,50.987828,0
+              29.411774,50.984154,0
+              29.412804,50.978534,0
+              29.41246,50.946531,0
+              29.425507,50.943503,0
+              29.434776,50.946315,0
+              29.443016,50.939825,0
+              29.473572,50.959076,0
+              29.507904,50.964698,0
+              29.516144,50.967076,0
+              29.517174,50.97313,0
+              29.541893,50.97313,0
+              29.565239,50.976156,0
+              29.570046,50.974643,0
+              29.604721,50.978102,0
+              29.675789,51.000577,0
+              29.700336,51.014835,0
+              29.69141,51.01937,0
+              29.672699,51.036968,0
+              29.624462,51.035673,0
+              29.627037,51.03006,0
+              29.626522,51.024769,0
+              29.554768,51.030167,0
+              29.558544,51.037292,0
+              29.555454,51.038911,0
+              29.508076,51.042149,0
+              29.511166,51.060494,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>
