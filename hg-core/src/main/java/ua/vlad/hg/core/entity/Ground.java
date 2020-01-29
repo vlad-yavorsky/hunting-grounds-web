@@ -1,7 +1,6 @@
 package ua.vlad.hg.core.entity;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -41,11 +40,12 @@ public class Ground {
 
     private String area;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss") // todo: (001) fix created date
+    @Column(insertable = false, updatable = false)
     private Date created;
 
     private String description;
 
+    @Lob
     private String kml;
 
     @NotBlank

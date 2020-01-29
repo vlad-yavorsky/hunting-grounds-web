@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.vlad.hg.core.service.UserService;
+import ua.vlad.hg.web.dto.UserDto;
+import ua.vlad.hg.web.mapper.UserMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpSession;
 public class AdministratorController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping
     public String index() {
@@ -34,7 +37,7 @@ public class AdministratorController {
             model.addAttribute("error", error);
             return "administrator/login";
         }
-        return "redirect:/administrator";
+        return "administrator/index";
     }
 
     @GetMapping("/signup")
@@ -43,9 +46,9 @@ public class AdministratorController {
     }
 
     @PostMapping("/signup")
-    public String signup(final String email, final String username, final String password) {
-        userService.create(email, username, password);
-        return "redirect:/login?registered";
+    public String signup(final UserDto userDto) {
+        userService.create(userMapper.toEntity(userDto));
+        return "administrator/index";
     }
 
     @GetMapping("/theme")

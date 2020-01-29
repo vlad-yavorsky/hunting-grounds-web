@@ -1,11 +1,14 @@
 -- roles
-INSERT INTO role (name) VALUES ('ADMIN');
-INSERT INTO role (name) VALUES ('USER');
+INSERT INTO role (name)
+VALUES ('ADMIN'),
+       ('USER');
 
 -- users
-INSERT INTO "user" (id, account_non_expired, account_non_locked, created, credentials_non_expired, email, enabled, password, username) VALUES (nextval('user_id_seq'), true, true, '2019-04-06 21:28:04.105000', true, 'a@example.com', true, '$2a$10$Dkg/6znNnqIgx1jPhdgkIeLgtVh0AGXw0NxPaY8Bi322meJnJSOVK', 'a');
-INSERT INTO "user" (id, account_non_expired, account_non_locked, created, credentials_non_expired, email, enabled, password, username) VALUES (nextval('user_id_seq'), true, true, '2019-04-13 14:07:28.254000', true, 'u@example.com', true, '$2a$10$jgYbtOWXWASyo8WPCz31FOwK378Dl3bXF8lSGkz9OCu19lblw5TOe', 'u');
+INSERT INTO "user" (id, email, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled)
+VALUES (nextval('user_id_seq'), 'a@example.com', 'a', '$2a$10$Dkg/6znNnqIgx1jPhdgkIeLgtVh0AGXw0NxPaY8Bi322meJnJSOVK', true, true, true, true),
+       (nextval('user_id_seq'), 'u@example.com', 'u', '$2a$10$jgYbtOWXWASyo8WPCz31FOwK378Dl3bXF8lSGkz9OCu19lblw5TOe', true, true, true, true);
 
 -- assign roles to users
-INSERT INTO user_role (user_id, role) VALUES (1, 'ADMIN');
-INSERT INTO user_role (user_id, role) VALUES (2, 'USER');
+INSERT INTO user_role (user_id, role)
+VALUES ((select id from "user" where username = 'a'), 'ADMIN'),
+       ((select id from "user" where username = 'u'), 'USER');

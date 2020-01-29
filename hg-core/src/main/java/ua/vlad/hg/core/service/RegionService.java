@@ -3,6 +3,7 @@ package ua.vlad.hg.core.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.vlad.hg.core.entity.Country;
 import ua.vlad.hg.core.entity.Region;
 import ua.vlad.hg.core.exception.ApplicationException;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RegionService {
 
     private final CountryRepository countryRepository;

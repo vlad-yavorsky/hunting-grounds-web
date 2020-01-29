@@ -3,21 +3,21 @@ application:
     google-maps-api-key: ${GOOGLE_MAPS_API_KEY}
 
 server:
-  port: ${PORT}
+  port: ${PORT:8080}
 
 spring:
   jackson:
     default-property-inclusion: NON_NULL
   datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/hg}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:postgres}
   jpa:
     properties:
       hibernate:
         default_schema: public
-        dialect: org.hibernate.dialect.PostgreSQL95Dialect
-        jdbc.lob.non_contextual_creation: true # Caused by: java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        jdbc.lob.non_contextual_creation: true
         format_sql: true
     hibernate:
       ddl-auto: validate

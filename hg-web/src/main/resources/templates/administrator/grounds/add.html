@@ -41,15 +41,26 @@
         <div class="form-group row">
             <label for="kmlFile" class="col-sm-2 col-form-label" th:text="#{ground.kml}"></label>
             <div class="col-sm-10">
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="kmlFile" name="kmlFile" accept=".kml">
-                    <label class="custom-file-label" for="kmlFile" id="kmlFileName">Choose file...</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="kmlFile" name="kmlFile" accept=".kml">
+                        <label class="custom-file-label" for="kmlFile" id="kmlFileName">Choose file...</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="kmlClear">Clear</button>
+                    </div>
                 </div>
             </div>
             <script>
-                $('.custom-file-input').on('change', function() {
-                    var fileName = $(this).val().split('\\').pop();
-                    $(this).next('.custom-file-label').addClass("selected").html(fileName);
+                $(function() {
+                    $('#kmlFile').on('change', function() {
+                        const fileName = $(this).val().split('\\').pop();
+                        $('#kmlFileName').html(fileName);
+                    });
+                    $('#kmlClear').click(function() {
+                        $('kmlFile').val("");
+                        $('#kmlFileName').html("Choose file...");
+                    });
                 });
             </script>
         </div>
@@ -149,7 +160,7 @@
 <script>
     $(function() {
         $('#country').change(function() {
-            var countryId = $(this).find(":selected").val();
+            const countryId = $(this).find(":selected").val();
             $('#region').empty().append($('<option>', {value: "", text : "- Select region -"}));
             $('#subRegion').empty().append($('<option>', {value: "", text : "- Select subregion -"}));
             if (countryId === '') {
@@ -158,8 +169,7 @@
             $.ajax({
                 url: "/api/regions/" + countryId,
                 type: "GET",
-                success: function(response) {
-                    var regions = response;
+                success: function(regions) {
                     regions.forEach(function(region) {
                         $('#region').append($('<option>', {value: region.id, text : region.name}));
                     });
@@ -167,7 +177,7 @@
             });
         });
         $('#region').change(function() {
-            var regionId = $(this).find(":selected").val();
+            const regionId = $(this).find(":selected").val();
             $('#subRegion').empty().append($('<option>', {value: "", text : "- Select subregion -"}));
             if (regionId === '') {
                 return
@@ -175,8 +185,7 @@
             $.ajax({
                 url: "/api/subregions/" + regionId,
                 type: "GET",
-                success: function(response) {
-                    var subRegions = response;
+                success: function(subRegions) {
                     subRegions.forEach(function(subRegion) {
                         $('#subRegion').append($('<option>', {value: subRegion.id, text : subRegion.name}));
                     });

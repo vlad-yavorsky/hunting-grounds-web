@@ -3,8 +3,6 @@ package ua.vlad.hg.web.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 public class GroundUpdateDto {
@@ -13,9 +11,10 @@ public class GroundUpdateDto {
     private AddressUpdateDto address;
     private String alias;
     private String area;
-    private Date created;
     private String description;
     private String kml;
     private String name;
+    private boolean removeKml;
+    private boolean reverseInnerBounds;
 
 }

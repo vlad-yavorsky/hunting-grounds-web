@@ -148,7 +148,7 @@ databaseChangeLog:
                   type: TIMESTAMP
               - column:
                   name: kml
-                  type: VARCHAR(1048576)
+                  type: CLOB
               - column:
                   name: area
                   type: VARCHAR(255)
