@@ -8,11 +8,16 @@ Requirements:
 
 Installing:
 
-Before database initialization set the next environment variables:
-* JDBC_DATABASE_USERNAME, PGUSER - Database name. Default: postgres
-* JDBC_DATABASE_PASSWORD, PGPASSWORD - Database name. Default: postgres
-* PGDATABASE - Database name. Default: hg
-* JDBC_DATABASE_URL - Database name. Default: jdbc:postgresql://localhost:5432/hg
-* DBDATA_PATH - path to /dbdata folder
-* GOOGLE_MAPS_API_KEY - Api Key for front end maps. Provider: Google
+Before application run set next environment variables:
 * PORT - Application port. Default: 8080
+* JDBC_DATABASE_URL - Database name. Default: jdbc:postgresql://localhost:5432/hg
+* JDBC_DATABASE_USERNAME - Database user name. Default: postgres
+* JDBC_DATABASE_PASSWORD - Database user password. Default: postgres
+* GOOGLE_MAPS_API_KEY - Api Key for an interactive map. Provider: Google
+
+For dbdata scripts execution (psql command) set next environment variables:
+* DBDATA_PATH - path to /dbdata folder
+* PGHOST - Postgres database host. Default: localhost
+* PGDATABASE - Postgres database name. Default: hg
+* PGUSER - Postgres database user name. Default: postgres
+* PGPASSWORD - Postgres database user password. Default: postgres
