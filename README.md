@@ -8,7 +8,7 @@ Requirements:
 
 Installing:
 
-Before application run set next environment variables:
+Before liquibase update command execution or application run set next environment variables:
 * PORT - Application port. Default: 8080
 * JDBC_DATABASE_URL - Database name. Default: jdbc:postgresql://localhost:5432/hg
 * JDBC_DATABASE_USERNAME - Database user name. Default: postgres
