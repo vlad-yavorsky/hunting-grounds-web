@@ -102,7 +102,7 @@
                 <table class="w-100 mb-2">
                     <tr>
                         <td>Unselected bounds</td>
-                        <td width="1%"><input type="color" id="colorUnselected"></td>
+                        <td style="width: 1%;"><input type="color" id="colorUnselected"></td>
                     </tr>
                     <tr>
                         <td>Selected bounds</td>
@@ -115,7 +115,7 @@
                 </div>
             </div>
             <a href="/apk/hunting-grounds-1.0.apk">
-                <img src="/img/download-for-android.png" alt="Download for Android" width="100%"/>
+                <img style="width: 100%;" src="/img/download-for-android.png" alt="Download for Android"/>
             </a>
         </div>
         <div id="map"></div>
@@ -145,17 +145,17 @@
 </div>
 
 <script>
-    var map;
-    var selectedGround = null;
-    var grounds = [];
-    var markersVisibility = true;
-    var boundsVisibility = true;
+    let map;
+    let selectedGround = null;
+    let grounds = [];
+    let markersVisibility = true;
+    let boundsVisibility = true;
 
-    var Color = Object({
+    const Color = Object({
         Unselected: '#1d58b6',
         Selected: '#d90000'
     });
-    var Marker = Object({
+    const Marker = Object({
         Unselected: 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png',
         Selected: 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red.png'
     });
@@ -175,7 +175,7 @@
                 grounds.forEach(function(ground) {
                     ground.markerOnMap = null;
                     if (ground.address.marker) {
-                        var marker = new google.maps.Marker({
+                        const marker = new google.maps.Marker({
                             map: map,
                             position: {lat: ground.address.marker.lat, lng: ground.address.marker.lng},
                             icon: Marker.Unselected
@@ -190,7 +190,7 @@
                     ground.polygonsOnMap = [];
                     if (ground.polygons) {
                         ground.polygons.forEach(function (bounds) {
-                            var paths = [];
+                            const paths = [];
                             paths.push(bounds.outerBounds);
                             if (bounds.innerBoundsList) {
                                 bounds.innerBoundsList.forEach(function (innerBound) {
@@ -198,7 +198,7 @@
                                 });
                             }
 
-                            var polygon = new google.maps.Polygon({
+                            const polygon = new google.maps.Polygon({
                                 map: map,
                                 paths: paths,
                                 strokeColor: Color.Unselected,
@@ -305,7 +305,7 @@
 
     function changeVisibility() {
         grounds.forEach(function (ground) {
-            var isRegionChecked = $('#region-' + ground.address.regionId).is(':checked');
+            const isRegionChecked = $('#region-' + ground.address.regionId).is(':checked');
             if (ground.markerOnMap !== null) {
                 ground.markerOnMap.setVisible(markersVisibility && isRegionChecked);
             }
@@ -316,9 +316,9 @@
     }
 
     function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
