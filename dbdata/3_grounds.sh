@@ -2,7 +2,7 @@
 
 GROUNDS_PATH="$DBDATA_PATH/grounds"
 
-psql --dbname="$PGDATABASE" --echo-errors << EOF
+psql --echo-errors << EOF
 INSERT INTO ground (id, address_id, name, alias, area, kml, description)
 VALUES (NEXTVAL('ground_id_seq'), 1, 'ТОВ "Трипільський Мисливець"', 'tov-trypillian-hunter', 49400, lo_import('$GROUNDS_PATH/kyiv/1-tov-tripilskij-mislivec.kml'), 'Полювання в 45км від Києва - це мисливське господарство «Трипільське мисливець».'||E'\n'||'На території в 50 тисяч гектар проводиться колективне та індивідуальне полювання на трофейного кабана і європейську козулю, полювання на польову і водоплавну дичину, на хутрових звірів. Натаска собак на кабана у вольєрі.'||E'\n'||'На території «Трипільського мисливця» розташований мисливський будиночок зі зручностями, кухнею і обіднім залом.'),
        (NEXTVAL('ground_id_seq'), 2, 'ПП "Соколине полісся"', 'sokolyne-polissya', 11800, lo_import('$GROUNDS_PATH/kyiv/2-pp-sokoline-polissya.kml'), ''),
