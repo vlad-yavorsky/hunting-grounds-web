@@ -1,11 +1,11 @@
 package ua.vlad.hg.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ua.vlad.hg.core.entity.Address;
 import ua.vlad.hg.core.entity.Ground;
@@ -15,6 +15,8 @@ import ua.vlad.hg.core.repository.GroundRepository;
 import ua.vlad.hg.core.util.KmlDocument;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +37,14 @@ public class GroundService {
     public Ground findByAlias(String alias) {
         return groundRepository.findByAlias(alias)
                 .orElseThrow(() -> new ApplicationException(ExceptionCode.GROUND_NOT_FOUND, alias));
+    }
+
+    public List<Ground> findAllFetchFullAddressByAliasIn(Set<String> alias) {
+        return groundRepository.findAllFetchFullAddressByAliasIn(alias);
+    }
+
+    public List<Ground> saveAll(List<Ground> grounds) {
+        return groundRepository.saveAll(grounds);
     }
 
     public Ground create(Ground ground, MultipartFile kmlFile) throws IOException {
@@ -58,7 +68,7 @@ public class GroundService {
 
     public void reverseInnerBounds(Long groundId) {
         Ground ground = find(groundId);
-        if (!StringUtils.isEmpty(ground.getKml())) {
+        if (StringUtils.isNotBlank(ground.getKml())) {
             ground.setKml(KmlDocument.of(ground.getKml()).reverseInnerBounds());
             groundRepository.save(ground);
         }

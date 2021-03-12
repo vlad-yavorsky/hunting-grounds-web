@@ -7,6 +7,7 @@ import ua.vlad.hg.core.entity.Ground;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface GroundRepository extends JpaRepository<Ground, Long> {
@@ -21,5 +22,8 @@ public interface GroundRepository extends JpaRepository<Ground, Long> {
     List<Ground> findAllFetchFullAddressBy();
 
     Optional<Ground> findByAlias(String alias);
+
+    @EntityGraph(Ground.Graph.ADDRESS_FULL)
+    List<Ground> findAllFetchFullAddressByAliasIn(Set<String> aliases);
 
 }

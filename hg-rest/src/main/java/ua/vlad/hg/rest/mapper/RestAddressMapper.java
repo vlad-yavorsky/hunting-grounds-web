@@ -1,9 +1,9 @@
 package ua.vlad.hg.rest.mapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.springframework.util.StringUtils;
 import ua.vlad.hg.core.dto.LatLng;
 import ua.vlad.hg.core.entity.Address;
 import ua.vlad.hg.rest.dto.RestAddressDto;
@@ -20,7 +20,7 @@ public interface RestAddressMapper {
 
     @Named("toLatLng")
     default LatLng toLatLng(Address address) {
-        if (StringUtils.isEmpty(address.getLatitude()) || StringUtils.isEmpty(address.getLongitude())) {
+        if (StringUtils.isBlank(address.getLatitude()) || StringUtils.isBlank(address.getLongitude())) {
             return null;
         }
         return LatLng.builder()
