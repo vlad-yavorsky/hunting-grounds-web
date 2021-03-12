@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.0.2
+      author: Vlad
+      changes:
+
+        - sql:
+            sql: INSERT INTO role (name) VALUES ('ADMIN'), ('USER');
+
+        - sql:
+            sql: INSERT INTO "user" (id, email, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled) VALUES
+                 (nextval('user_id_seq'), 'admin@example.com', 'admin', '$2a$10$Dkg/6znNnqIgx1jPhdgkIeLgtVh0AGXw0NxPaY8Bi322meJnJSOVK', true, true, true, true),
+                 (nextval('user_id_seq'), 'user@example.com', 'user', '$2a$10$jgYbtOWXWASyo8WPCz31FOwK378Dl3bXF8lSGkz9OCu19lblw5TOe', true, true, true, true);
+
+        - sql:
+            sql: INSERT INTO user_role (user_id, role) VALUES
+                 ((select id from "user" where username = 'admin'), 'ADMIN'),
+                 ((select id from "user" where username = 'user'), 'USER');
+
+        - sql:
+            sql: INSERT INTO country(id, iso_alpha3code, iso_number, name) VALUES
+                 (NEXTVAL('country_id_seq'), 'UKR', '803', 'Україна');
+
+        - sql:
+            sql: INSERT INTO region (id, name, country_id) VALUES
+                 (NEXTVAL('region_id_seq'), 'Вінницька область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Волинська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Дніпропетровська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Донецька область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Житомирська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Закарпатська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Запорізька область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Івано-Франківська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Київська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Кіровоградська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Луганська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Львівська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Миколаївська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Одеська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Полтавська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Рівненська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Сумська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Тернопільська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Харківська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Херсонська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Хмельницька область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Черкаська область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Чернівецька область', (SELECT id from country where iso_alpha3code = 'UKR')),
+                 (NEXTVAL('region_id_seq'), 'Чернігівська область', (SELECT id from country where iso_alpha3code = 'UKR'));
+
+        - sql:
+            sql: INSERT INTO region (id, name, country_id, parent_region_id) VALUES
+                 (NEXTVAL('region_id_seq'), 'Кагарлицький район', (SELECT id from country where iso_alpha3code = 'UKR'), (SELECT id from region where name = 'Київська область')),
+                 (NEXTVAL('region_id_seq'), 'Червоноармійський район', (SELECT id from country where iso_alpha3code = 'UKR'), (SELECT id from region where name = 'Житомирська область'));
