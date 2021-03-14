@@ -62,6 +62,11 @@
 <!--                <input type="button" id="clearAll" value="Clear All">-->
 <!--            </div>-->
             <div class="ground-filter-item mb-3">
+                <a href="/administrator/login" type="button" class="btn btn-dark" sec:authorize="!isAuthenticated()">Log In</a>
+                <a href="/administrator" type="button" class="btn btn-dark" sec:authorize="isAuthenticated()">Admin Panel</a>
+                <a href="/administrator/logout" type="button" class="btn btn-dark" sec:authorize="isAuthenticated()">Log Out</a>
+            </div>
+            <div class="ground-filter-item mb-3">
                 <h5>Visibility</h5>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input visibility" id="markersVisibility" checked>
@@ -114,9 +119,9 @@
                     <input type="button" class="btn btn-primary btn-sm" id="colorRandom" value="Random">
                 </div>
             </div>
-            <a href="#">
-                <img style="width: 100%;" src="/img/download-for-android.png" alt="Download for Android"/>
-            </a>
+<!--            <a href="#">-->
+<!--                <img style="width: 100%;" src="/img/download-for-android.png" alt="Download for Android"/>-->
+<!--            </a>-->
         </div>
         <div id="map"></div>
     </div>
