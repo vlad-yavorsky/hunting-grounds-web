@@ -1,13 +1,13 @@
 # Database of Ukrainian Hunting Grounds
 
-Requirements:
+**Requirements:**
 
 * Java 11
 * PostgreSQL 12
 
-Installing:
+**Installing:**
 
-Set next environment variables before application start:
+**Set next environment variables before application start:**
 
 * PORT - Application port. Default: 8080
 * JDBC_DATABASE_URL - Database name. Default: jdbc:postgresql://localhost:5432/hg
@@ -17,62 +17,54 @@ Set next environment variables before application start:
 
 ## Csv Loader
 
-To upload grounds into the database you can use several requests.
+To import new grounds (also modify or delete) you can use 2 requests
 
-### First method
-
-Using these requests you can send csv files in request body:
-
-`POST {host}/api/batch/create` - responsible for creation new grounds
-
-`POST {host}/api/batch/update` - responsible for updating existing grounds by alias
+**First request can send csv files in request body**
 
 ```
-curl --location --request POST '{host}/api/batch/create' \
---form 'file=@"/C:/{project_root}/dbdata/create-1.csv"' \
---form 'file=@"/C:/{project_root}/dbdata/create-2.csv"'
-
-curl --location --request POST '{host}/api/batch/update' \
---form 'file=@"/C:/{project_root}/dbdata/update-1.csv"' \
---form 'file=@"/C:/{project_root}/dbdata/update-2.csv"'
+curl -X POST '{host}/api/batch' \
+-F 'file=@/path_to_batch_1.csv' \
+-F 'file=@/path_to_batch_2.csv'
 ```
 
-### Second method
-
-These requests will take csv files for processing from directory `"{project_root}/dbdata/to_process/"`
-
-`POST {host}/api/batch/createJob` - responsible for creation new grounds
-
-`POST {host}/api/batch/updateJob` - responsible for updating existing grounds by alias
-
-Filename pattern should be next:
-
-`create.*.csv` - is taken by `createJob`
-
-`update.*.csv` - is taken by `updateJob`
-
+**Second request will take csv files for processing from directory `{project_root}/batch/to_process/`**
 
 ```
-curl --location --request POST '{host}/api/batch/createJob'
-
-curl --location --request POST '{host}/api/batch/updateJob'
+curl -X POST '{host}/api/batchJob'
 ```
+
+Filename pattern should be next: `.*.csv`
 
 ### Csv file structure
 
 First line is header. Second and others - grounds data.
 
-Required header fields: `alias, name, countryId, regionId`
-
-Other available header fields: `area, kmlPath, description, city, street, zipCode, latitude, longitude, info, subRegionId`
+Header Field | Data Type | Required
+--- | --- | ---
+operation | Enum<br />Values: CREATE, UPDATE, DELETE | yes
+alias | String | yes
+name | String | yes - for CREATE operation<br/>no - for other operations
+area | BigDecimal | no
+kmlPath | String | no
+description | String | no
+city | String | no
+street | String | no
+zipCode | String | no
+latitude | BigDecimal | no
+longitude | BigDecimal | no
+info | String | no
+countryId | Long | yes - for CREATE operation<br/>no - for other operations
+regionId | Long | yes - for CREATE operation<br/>no - for other operations
+subRegionId | Long | no
 
 Example:
 ```
-name,alias,area,kmlPath,description,city,street,zipCode,latitude,longitude,info,countryId,regionId,subRegionId
-"Hunting Ground Name",hunting-ground-alias,50000,/path_to_kml_file.kml,Hunting ground description,City,Street and Building number,15000,50.123456,30.123456,Additional address info,1,2,3
-"Hunting Ground Name",hunting-ground-alias,50000,/path_to_kml_file.kml,Hunting ground description,City,Street and Building number,15000,50.123456,30.123456,Additional address info,1,2,3
+operation,alias,name,area,kmlPath,description,city,street,zipCode,latitude,longitude,info,countryId,regionId,subRegionId
+CREATE,hunting-ground-alias,"Hunting Ground Name",50000,/path_to_kml_file.kml,Hunting ground description,City,Street and Building number,15000,50.123456,30.123456,Additional address info,1,2,3
+UPDATE,hunting-ground-alias,"Hunting Ground Name",50000,/path_to_kml_file.kml,Hunting ground description,City,Street and Building number,15000,50.123456,30.123456,Additional address info,1,2,3
+DELETE,hunting-ground-alias,,,,,,,,,,,,,
 ```
 
-Successfully processed csv files will be moved to the directory `"{project_root}/dbdata/processed/"`
+Successfully processed csv files will be moved to the directory `{project_root}/batch/processed/`
 
-Failed files will stay in folders `"{project_root}/dbdata/to_process/"` and `"{project_root}/dbdata/web/"`
+Failed files will stay in folders `{project_root}/batch/to_process/` and `{project_root}/batch/web/`

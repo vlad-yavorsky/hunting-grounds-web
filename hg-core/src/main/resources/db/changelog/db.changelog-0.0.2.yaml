@@ -9,8 +9,8 @@ databaseChangeLog:
 
         - sql:
             sql: INSERT INTO "user" (id, email, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled) VALUES
-                 (nextval('user_id_seq'), 'admin@example.com', 'admin', '$2a$10$Dkg/6znNnqIgx1jPhdgkIeLgtVh0AGXw0NxPaY8Bi322meJnJSOVK', true, true, true, true),
-                 (nextval('user_id_seq'), 'user@example.com', 'user', '$2a$10$jgYbtOWXWASyo8WPCz31FOwK378Dl3bXF8lSGkz9OCu19lblw5TOe', true, true, true, true);
+                 (nextval('user_id_seq'), 'admin@example.com', 'admin', '$2a$10$sbMBi/w7EM1DBEwQDNBjYuob8393PAlmfQ0dMiu7c8rC0MrCdemoi', true, true, true, true),
+                 (nextval('user_id_seq'), 'user@example.com', 'user', '$2a$10$PRvsWm9trJR4518BTjLYwOLgLp7y02H3Fr/DTUlEPWvwNz96h4JL6', true, true, true, true);
 
         - sql:
             sql: INSERT INTO user_role (user_id, role) VALUES

@@ -33,6 +33,9 @@
                             <a class="dropdown-item" th:href="@{/administrator/grounds/add}"><i class="fas fa-plus-square fa-fw"></i> <span th:text="#{nav.grounds.add}"></span></a>
                         </div>
                     </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${#httpServletRequest.getRequestURI() == '/administrator/batch/upload' ? 'active' : ''}">
+                        <a class="nav-link" th:href="@{/administrator/batch/upload}"><i class="fas fa-box fa-fw"></i> <span th:text="#{nav.batch}"></span></a>
+                    </li>
                     <!--<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/contacts' ? 'active' : ''}">-->
                         <!--<a class="nav-link" th:href="@{/contacts}"><i class="fas fa-map-marker-alt fa-fw"></i> <span th:text="#{nav.contacts}"></span></a>-->
                     <!--</li>-->
@@ -115,7 +118,7 @@
 
 <footer th:fragment="footer">
     <div class="bg-dark text-white p-2">
-        <div class="container" th:text="'&copy; 2019 ' + #{sitename}"></div>
+        <div class="container" th:text="'&copy; 2021 ' + #{sitename}"></div>
     </div>
 </footer>
 

@@ -8,6 +8,7 @@ import org.jsoup.parser.Parser;
 import ua.vlad.hg.core.dto.LatLng;
 import ua.vlad.hg.core.dto.Polygon;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -96,8 +97,8 @@ public class KmlDocument {
         coordinatesStrings.forEach(coordinatesString -> {
             List<String> coordinates = Arrays.asList(coordinatesString.split(","));
             latLngList.add(LatLng.builder()
-                    .lat(Double.parseDouble(coordinates.get(1)))
-                    .lng(Double.parseDouble(coordinates.get(0)))
+                    .lat(new BigDecimal(coordinates.get(1)))
+                    .lng(new BigDecimal(coordinates.get(0)))
                     .build());
         });
         return latLngList;

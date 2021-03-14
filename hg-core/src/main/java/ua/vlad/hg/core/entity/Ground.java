@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -38,7 +39,7 @@ public class Ground {
     @NotBlank
     private String alias;
 
-    private String area;
+    private BigDecimal area;
 
     @Column(insertable = false, updatable = false)
     private Date created;

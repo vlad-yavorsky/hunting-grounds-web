@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class RestApiController {
+public class ApiController {
 
     private final RestGroundService restGroundService;
     private final RegionService regionService;

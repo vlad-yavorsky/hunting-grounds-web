@@ -1,4 +1,4 @@
-package ua.vlad.hg.core.updater;
+package ua.vlad.hg.core.updater.mapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
@@ -6,6 +6,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import ua.vlad.hg.core.entity.Ground;
 import ua.vlad.hg.core.entity.Region;
+import ua.vlad.hg.core.updater.dto.GroundCsvDto;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -15,8 +15,6 @@ import ua.vlad.hg.core.repository.GroundRepository;
 import ua.vlad.hg.core.util.KmlDocument;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -34,17 +32,17 @@ public class GroundService {
                 .orElseThrow(() -> new ApplicationException(ExceptionCode.GROUND_NOT_FOUND, id));
     }
 
-    public Ground findByAlias(String alias) {
-        return groundRepository.findByAlias(alias)
+    public boolean existsByAlias(String alias) {
+        return groundRepository.existsByAlias(alias);
+    }
+
+    public Ground findFetchFullAddressByAlias(String alias) {
+        return groundRepository.findFetchFullAddressByAlias(alias)
                 .orElseThrow(() -> new ApplicationException(ExceptionCode.GROUND_NOT_FOUND, alias));
     }
 
-    public List<Ground> findAllFetchFullAddressByAliasIn(Set<String> alias) {
-        return groundRepository.findAllFetchFullAddressByAliasIn(alias);
-    }
-
-    public List<Ground> saveAll(List<Ground> grounds) {
-        return groundRepository.saveAll(grounds);
+    public Ground save(Ground ground) {
+        return groundRepository.save(ground);
     }
 
     public Ground create(Ground ground, MultipartFile kmlFile) throws IOException {
@@ -76,6 +74,10 @@ public class GroundService {
 
     public void delete(Long id) {
         groundRepository.deleteById(id);
+    }
+
+    public void deleteByAlias(String alias) {
+        groundRepository.deleteByAlias(alias);
     }
 
 }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.batch})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.batch}"></h2>
+</div>
+
+<div class="container mt-4 mb-4">
+
+    <div class="alert alert-danger" th:if="${error}">
+        <h5 th:text="#{error}"></h5>
+        <div th:text="#{${error}}"></div>
+    </div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-danger (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+
+            <div>Choose csv file, then upload.</div>
+            <br/>
+
+            <form method="post" th:action="@{/administrator/batch/upload}" enctype="multipart/form-data"
+                  sec:authorize="isAuthenticated()">
+                <div class="form-group row">
+                    <label for="csvFile" class="col-sm-2 col-form-label" th:text="#{batch.csv}"></label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="csvFile" name="csvFile" accept=".csv">
+                                <label class="custom-file-label" for="csvFile" id="csvFileName">Choose file...</label>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="csvClear">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2"></label>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-file-upload fa-fw"></i> <span
+                                th:text="#{batch.upload}"></span></button>
+                        <a class="btn btn-secondary" th:href="@{'/administrator/'}"><i
+                                class="fas fa-window-close fa-fw"></i> <span th:text="#{batch.cancel}"></span></a>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        $('#csvFile').on('change', function () {
+                            const fileName = $(this).val().split('\\').pop();
+                            $('#csvFileName').html(fileName);
+                        });
+                        $('#csvClear').click(function () {
+                            $('csvFile').val("");
+                            $('#csvFileName').html("Choose file...");
+                        });
+                    });
+                </script>
+            </form>
+
+            <div class="card" th:if="${batch}">
+                <div class="card-header">File content</div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <span th:text="${'Total: ' + batch.size()}"></span><br/>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="table table-striped table-sm">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th th:text="#{batch.index}"></th>
+                                <th th:text="#{batch.operation}"></th>
+                                <th th:text="#{batch.status}"></th>
+                                <th th:text="#{batch.statusMessage}"></th>
+                                <th th:text="#{batch.alias}"></th>
+                                <th th:text="#{batch.name}"></th>
+                                <th th:text="#{batch.area}"></th>
+                                <th th:text="#{batch.kmlPath}"></th>
+                                <th th:text="#{batch.description}"></th>
+                                <th th:text="#{batch.city}"></th>
+                                <th th:text="#{batch.street}"></th>
+                                <th th:text="#{batch.zipCode}"></th>
+                                <th th:text="#{batch.latitude}"></th>
+                                <th th:text="#{batch.longitude}"></th>
+                                <th th:text="#{batch.info}"></th>
+                                <th th:text="#{batch.countryId}"></th>
+                                <th th:text="#{batch.regionId}"></th>
+                                <th th:text="#{batch.type}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="ground: ${batch}">
+                                <td th:text="${ground.index}"></td>
+                                <td th:text="${ground.operation}"></td>
+                                <td th:text="${ground.itemStatus.status}"></td>
+                                <td th:text="${ground.itemStatus.message}"></td>
+                                <td th:text="${ground.alias}"></td>
+                                <td th:text="${ground.name}"></td>
+                                <td th:text="${ground.area}"></td>
+                                <td th:text="${ground.kmlPath}"></td>
+                                <td th:text="${ground.description}"></td>
+                                <td th:text="${ground.city}"></td>
+                                <td th:text="${ground.street}"></td>
+                                <td th:text="${ground.zipCode}"></td>
+                                <td th:text="${ground.latitude}"></td>
+                                <td th:text="${ground.longitude}"></td>
+                                <td th:text="${ground.info}"></td>
+                                <td th:text="${ground.countryId}"></td>
+                                <td th:text="${ground.regionId}"></td>
+                                <td th:text="${ground.type}"></td>
+                            <tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments :: modal}"></div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>
