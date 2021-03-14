@@ -47,10 +47,10 @@ databaseChangeLog:
                   type: VARCHAR(255)
               - column:
                   name: latitude
-                  type: VARCHAR(255)
+                  type: NUMERIC
               - column:
                   name: longitude
-                  type: VARCHAR(255)
+                  type: NUMERIC
               - column:
                   name: info
                   type: VARCHAR(255)
@@ -151,7 +151,7 @@ databaseChangeLog:
                   type: CLOB
               - column:
                   name: area
-                  type: VARCHAR(255)
+                  type: NUMERIC
               - column:
                   name: description
                   type: VARCHAR(4000)

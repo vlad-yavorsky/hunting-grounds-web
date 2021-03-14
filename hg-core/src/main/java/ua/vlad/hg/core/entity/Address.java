@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -45,9 +46,9 @@ public class Address {
 
     private String info;
 
-    private String latitude;
+    private BigDecimal latitude;
 
-    private String longitude;
+    private BigDecimal longitude;
 
     private String street;
 

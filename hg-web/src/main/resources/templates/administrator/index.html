@@ -25,9 +25,18 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Hunting Grounds</h5>
-                        <p class="card-text">View list of hunting grounds. Edit or add new items.</p>
+                        <p class="card-text">View list of hunting grounds.<br>Edit or add new items.</p>
                         <a th:href="@{/administrator/grounds}" class="btn btn-primary">List</a>
                         <a th:href="@{/administrator/grounds/add}" class="btn btn-primary">Add</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-group" style="margin-top: -1px;">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Batch</h5>
+                        <p class="card-text">Upload csv files.</p>
+                        <a th:href="@{/administrator/batch/upload}" class="btn btn-primary">Upload</a>
                     </div>
                 </div>
             </div>

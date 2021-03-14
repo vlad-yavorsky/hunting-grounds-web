@@ -1,6 +1,5 @@
 package ua.vlad.hg.rest.mapper;
 
-import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -20,12 +19,12 @@ public interface RestAddressMapper {
 
     @Named("toLatLng")
     default LatLng toLatLng(Address address) {
-        if (StringUtils.isBlank(address.getLatitude()) || StringUtils.isBlank(address.getLongitude())) {
+        if (address.getLatitude() == null || address.getLongitude() == null) {
             return null;
         }
         return LatLng.builder()
-                .lat(Double.parseDouble(address.getLatitude()))
-                .lng(Double.parseDouble(address.getLongitude()))
+                .lat(address.getLatitude())
+                .lng(address.getLongitude())
                 .build();
     }
 
