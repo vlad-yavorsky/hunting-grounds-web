@@ -10,7 +10,6 @@
         #map {
             height: 100%;
             width: 100%;
-            margin-left: 350px;
         }
         /* Optional: Makes the sample page fill the window. */
         html, body {
@@ -33,9 +32,10 @@
         }
         .ground-filter {
             width: 350px;
-            height: 100%;
+            max-height: 100%;
             overflow-y: auto;
             z-index: 1;
+            border-radius: 0 0 10px 10px;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css"/>
@@ -50,10 +50,16 @@
 </head>
 <body>
 
+<div class="navbar navbar-light bg-light shadow-sm fixed-top" style="width: 350px;">
+    <h3>Filters</h3>
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#filters" aria-controls="filters" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
 <div class="container-fluid h-100">
     <div class="row h-100">
-        <div class="position-absolute bg-white p-3 shadow-lg ground-filter">
-            <h3>Filters</h3>
+        <div class="position-absolute bg-white p-3 shadow-lg ground-filter collapse" id="filters">
 <!--            <div class="ground-filter-item">-->
 <!--                <select id="search-select" multiple="multiple">-->
 <!--                    <option value=""></option>-->
@@ -61,12 +67,13 @@
 <!--                </select>-->
 <!--                <input type="button" id="clearAll" value="Clear All">-->
 <!--            </div>-->
-            <div class="ground-filter-item mb-3">
-                <a href="/administrator/login" type="button" class="btn btn-dark" sec:authorize="!isAuthenticated()">Log In</a>
-                <a href="/administrator" type="button" class="btn btn-dark" sec:authorize="isAuthenticated()">Admin Panel</a>
-                <a href="/administrator/logout" type="button" class="btn btn-dark" sec:authorize="isAuthenticated()">Log Out</a>
+            <div style="margin-bottom: 60px;"></div>
+            <div class="ground-filter-item mt-3">
+                <a href="/administrator/login" class="btn btn-dark" sec:authorize="!isAuthenticated()">Log In</a>
+                <a href="/administrator" class="btn btn-dark" sec:authorize="isAuthenticated()">Admin Panel</a>
+                <a href="/administrator/logout" class="btn btn-dark" sec:authorize="isAuthenticated()">Log Out</a>
             </div>
-            <div class="ground-filter-item mb-3">
+            <div class="ground-filter-item mt-3">
                 <h5>Visibility</h5>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input visibility" id="markersVisibility" checked>
@@ -77,9 +84,9 @@
                     <label class="custom-control-label" for="boundsVisibility">Bounds</label>
                 </div>
             </div>
-            <div class="card mb-3">
+            <div class="card mt-3">
                 <div class="card-header" id="headingOne">
-                    <button class="btn btn-primary btn-sm float-right" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <button class="btn btn-primary float-right" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                         <i class="fas fa-chevron-circle-down"></i>
                     </button>
                     <h5 class="m-0" th:text="#{region}"></h5>
@@ -98,11 +105,11 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="ground-filter-item mb-3">-->
+<!--            <div class="ground-filter-item mt-3">-->
 <!--                <h5 th:text="#{ground.area}"></h5>-->
 <!--                <input type="range" class="custom-range" id="area">-->
 <!--            </div>-->
-            <div class="ground-filter-item mb-3">
+            <div class="ground-filter-item mt-3">
                 <h5 th:text="#{ground.color}"></h5>
                 <table class="w-100 mb-2">
                     <tr>
@@ -115,8 +122,8 @@
                     </tr>
                 </table>
                 <div class="text-right">
-                    <input type="button" class="btn btn-info btn-sm" id="colorReset" value="Reset">
-                    <input type="button" class="btn btn-primary btn-sm" id="colorRandom" value="Random">
+                    <input type="button" class="btn btn-info" id="colorReset" value="Reset">
+                    <input type="button" class="btn btn-primary" id="colorRandom" value="Random">
                 </div>
             </div>
 <!--            <a href="#">-->
