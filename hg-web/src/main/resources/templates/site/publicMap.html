@@ -37,6 +37,19 @@
             z-index: 1;
             border-radius: 0 0 10px 10px;
         }
+        .filters {
+            width: 350px;
+        }
+        @media (max-width: 600px) {
+            .filters, .ground-filter {
+                width: 100%;
+            }
+        }
+        @media (max-width: 730px) {
+            #ground-info {
+                top: 4rem;
+            }
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/webjars/jquery/3.6.0/jquery.min.js"></script>
@@ -50,7 +63,7 @@
 </head>
 <body>
 
-<div class="navbar navbar-light bg-light shadow-sm fixed-top" style="width: 350px;">
+<div class="navbar navbar-light bg-light shadow-sm fixed-top filters">
     <h3>Filters</h3>
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#filters" aria-controls="filters" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
