@@ -3,6 +3,7 @@
 <head th:fragment="head (title)" th:remove="tag">
     <title th:text="${title} + ' - ' + #{sitename}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" th:if="${session.theme != null && session.theme != 'default'}" th:href="@{'/webjars/bootswatch/4.2.1/'+ ${session.theme} + '/bootstrap.min.css'}">
     <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.15.2/css/all.css"/>
