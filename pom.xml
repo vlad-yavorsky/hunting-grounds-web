@@ -27,7 +27,7 @@
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <spring.boot.version>2.4.3</spring.boot.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
-        <postgresql.version>42.2.19</postgresql.version>
+        <postgresql.version>42.4.1</postgresql.version>
         <liquibase.version>4.3.1</liquibase.version>
     </properties>
 
