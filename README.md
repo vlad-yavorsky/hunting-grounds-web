@@ -1,11 +1,11 @@
 # Database of Ukrainian Hunting Grounds
 
-**Requirements:**
+### Requirements:
 
-* Java 11
-* PostgreSQL 12
+* Java 19
+* PostgreSQL 15
 
-**Installing:**
+### Installation:
 
 **Set next environment variables before application start:**
 
@@ -15,7 +15,14 @@
 * JDBC_DATABASE_PASSWORD - Database password. Default: postgres
 * GOOGLE_MAPS_API_KEY - Api Key for an interactive map. Provider: Google
 
-## Csv Loader
+### Default users:
+
+| Login   | Password  |
+|---------|-----------|
+| admin   | admin     |
+| user    | user      |
+
+### Csv Loader
 
 To import new grounds (also modify or delete) you can use 2 requests
 
@@ -35,7 +42,7 @@ curl -X POST '{host}/api/batchJob'
 
 Filename pattern should be next: `.*.csv`
 
-### Csv file structure
+**Csv file structure**
 
 First line is header. Second and others - grounds data.
 
