@@ -8,7 +8,7 @@
 <header th:replace="~{fragments :: header}"></header>
 
 <div class="container mt-4 mb-4">
-    <div th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}" class="alert alert-danger">
+    <div th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(response.status)}" class="alert alert-danger">
         <strong th:text="|${httpStatus.value()} - ${httpStatus.reasonPhrase}|"></strong>
         <div th:utext="${message}"></div>
     </div>

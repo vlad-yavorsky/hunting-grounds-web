@@ -1,23 +1,33 @@
 package ua.vlad.hg.web.excepton.handler;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.vlad.hg.core.exception.ApplicationException;
-import ua.vlad.hg.web.controller.AdministratorController;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@ControllerAdvice(basePackageClasses = AdministratorController.class)
+@ControllerAdvice
 public class ControllerExceptionHandler {
 
     private static final String ERROR_PAGE = "/administrator/error";
 
-    @ExceptionHandler(Exception.class)
+    @ModelAttribute("request")
+    public HttpServletRequest getRequest(HttpServletRequest request) {
+        return request;
+    }
+
+    @ModelAttribute("response")
+    public HttpServletResponse getRequest(HttpServletResponse response) {
+        return response;
+    }
+
+    @ExceptionHandler
     public ModelAndView exceptionHandler(final Exception e, final HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         log.error("Exception", e);
         ModelAndView modelAndView = new ModelAndView();

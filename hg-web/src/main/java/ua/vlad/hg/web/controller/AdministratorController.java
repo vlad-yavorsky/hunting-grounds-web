@@ -14,8 +14,8 @@ import ua.vlad.hg.core.service.UserService;
 import ua.vlad.hg.web.dto.UserDto;
 import ua.vlad.hg.web.mapper.UserMapper;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/administrator")
