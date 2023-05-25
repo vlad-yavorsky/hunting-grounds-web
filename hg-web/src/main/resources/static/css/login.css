@@ -1,5 +1,6 @@
 body#LoginForm {
     background: url("../img/blur-hd-wallpaper.jpg") no-repeat;
+    background-size: cover;
 }
 
 .panel h2 {

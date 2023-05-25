@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" th:if="${session.theme != null && session.theme != 'default'}" th:href="@{'/webjars/bootswatch/4.2.1/'+ ${session.theme} + '/bootstrap.min.css'}">
     <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.15.2/css/all.css"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/template.css}"/>
-    <script type="text/javascript" src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/jquery/3.6.3/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -24,20 +24,20 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active' : ''}">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/' ? 'active' : ''}">
                         <a class="nav-link" th:href="@{/}"><i class="fas fa-map-marked-alt"></i> <span th:text="#{nav.map}"></span></a>
                     </li>
-                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()" th:classappend="${#httpServletRequest.getRequestURI() == '/administrator/grounds' ? 'active' : ''}">
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()" th:classappend="${request.requestURI == '/administrator/grounds' ? 'active' : ''}">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-cubes fa-fw"></i> <span th:text="#{nav.grounds}"></span></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" th:href="@{/administrator/grounds}"><i class="fas fa-list-alt fa-fw"></i> <span th:text="#{nav.grounds}"></span></a>
                             <a class="dropdown-item" th:href="@{/administrator/grounds/add}"><i class="fas fa-plus-square fa-fw"></i> <span th:text="#{nav.grounds.add}"></span></a>
                         </div>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${#httpServletRequest.getRequestURI() == '/administrator/batch/upload' ? 'active' : ''}">
+                    <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${request.requestURI == '/administrator/batch/upload' ? 'active' : ''}">
                         <a class="nav-link" th:href="@{/administrator/batch/upload}"><i class="fas fa-box fa-fw"></i> <span th:text="#{nav.batch}"></span></a>
                     </li>
-                    <!--<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/contacts' ? 'active' : ''}">-->
+                    <!--<li class="nav-item" th:classappend="${request.requestURI == '/contacts' ? 'active' : ''}">-->
                         <!--<a class="nav-link" th:href="@{/contacts}"><i class="fas fa-map-marker-alt fa-fw"></i> <span th:text="#{nav.contacts}"></span></a>-->
                     <!--</li>-->
 

@@ -20,8 +20,8 @@ import ua.vlad.hg.web.dto.GroundUpdateDto;
 import ua.vlad.hg.web.mapper.GroundMapper;
 import ua.vlad.hg.web.mapper.RegionMapper;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.stream.Collectors;
 

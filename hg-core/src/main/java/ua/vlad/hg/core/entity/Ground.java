@@ -2,8 +2,8 @@ package ua.vlad.hg.core.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -46,7 +46,6 @@ public class Ground {
 
     private String description;
 
-    @Lob
     private String kml;
 
     @NotBlank

@@ -39,23 +39,23 @@ Filename pattern should be next: `.*.csv`
 
 First line is header. Second and others - grounds data.
 
-Header Field | Data Type | Required
---- | --- | ---
-operation | Enum<br />Values: CREATE, UPDATE, DELETE | yes
-alias | String | yes
-name | String | yes - for CREATE operation<br/>no - for other operations
-area | BigDecimal | no
-kmlPath | String | no
-description | String | no
-city | String | no
-street | String | no
-zipCode | String | no
-latitude | BigDecimal | no
-longitude | BigDecimal | no
-info | String | no
-countryId | Long | yes - for CREATE operation<br/>no - for other operations
-regionId | Long | yes - for CREATE operation<br/>no - for other operations
-subRegionId | Long | no
+| Header Field | Data Type                                | Required                                                 |
+|--------------|------------------------------------------|----------------------------------------------------------|
+| operation    | Enum<br />Values: CREATE, UPDATE, DELETE | yes                                                      |
+| alias        | String                                   | yes                                                      |
+| name         | String                                   | yes - for CREATE operation<br/>no - for other operations |
+| area         | BigDecimal                               | no                                                       |
+| kmlPath      | String                                   | no                                                       |
+| description  | String                                   | no                                                       |
+| city         | String                                   | no                                                       |
+| street       | String                                   | no                                                       |
+| zipCode      | String                                   | no                                                       |
+| latitude     | BigDecimal                               | no                                                       |
+| longitude    | BigDecimal                               | no                                                       |
+| info         | String                                   | no                                                       |
+| countryId    | Long                                     | yes - for CREATE operation<br/>no - for other operations |
+| regionId     | Long                                     | yes - for CREATE operation<br/>no - for other operations |
+| subRegionId  | Long                                     | no                                                       |
 
 Example:
 ```

@@ -17,8 +17,7 @@
         <hg.core.version>0.0.1</hg.core.version>
         <hg.rest.version>0.0.1</hg.rest.version>
 
-        <thymeleaf.extras.version>3.0.4.RELEASE</thymeleaf.extras.version>
-        <jquery.version>3.6.0</jquery.version>
+        <jquery.version>3.6.3</jquery.version>
         <bootstrap.version>4.2.1</bootstrap.version>
         <bootswatch.version>4.2.1</bootswatch.version>
         <font.awesome.version>5.15.2</font.awesome.version>
@@ -82,8 +81,7 @@
 
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-            <version>${thymeleaf.extras.version}</version>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
 
         <dependency>

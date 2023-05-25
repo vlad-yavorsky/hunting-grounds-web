@@ -14,8 +14,8 @@
     <version>0.0.1</version>
 
     <properties>
-        <jsoup.version>1.13.1</jsoup.version>
-        <opencsv.version>5.3</opencsv.version>
+        <jsoup.version>1.16.1</jsoup.version>
+        <opencsv.version>5.7.1</opencsv.version>
     </properties>
 
     <dependencies>
@@ -82,14 +82,6 @@
                     <outputChangeLogFile>db/output/db.output-changelog.yaml</outputChangeLogFile>
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>update</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
