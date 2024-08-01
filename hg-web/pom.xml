@@ -18,7 +18,7 @@
         <hg.rest.version>0.0.1</hg.rest.version>
 
         <jquery.version>3.6.3</jquery.version>
-        <bootstrap.version>4.2.1</bootstrap.version>
+        <bootstrap.version>4.3.1</bootstrap.version>
         <bootswatch.version>4.2.1</bootswatch.version>
         <font.awesome.version>5.15.2</font.awesome.version>
         <momentjs.version>2.29.1</momentjs.version>
