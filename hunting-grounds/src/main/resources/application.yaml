@@ -1,0 +1,30 @@
+application:
+  security:
+    google-maps-api-key: ${GOOGLE_MAPS_API_KEY}
+
+server:
+  port: ${PORT:8080}
+
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL
+  datasource:
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/hg}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:postgres}
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.lob.non_contextual_creation: true
+        format_sql: false
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+logging:
+  level:
+    ua.vlad.hg: debug
+    org.hibernate.SQL: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace

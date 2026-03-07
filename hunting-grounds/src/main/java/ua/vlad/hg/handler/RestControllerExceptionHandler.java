@@ -1,0 +1,32 @@
+package ua.vlad.hg.handler;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ua.vlad.hg.exception.ApplicationException;
+import ua.vlad.hg.exception.RestApiError;
+
+@Slf4j
+@RestControllerAdvice
+public class RestControllerExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<RestApiError> applicationExceptionHandler(final Exception e) {
+        log.error("Exception", e);
+        int code = 0;
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        if (e instanceof ApplicationException) {
+            code = ((ApplicationException) e).getExceptionCode().ordinal();
+            status = ((ApplicationException) e).getExceptionCode().getStatus();
+        }
+        return ResponseEntity
+                .status(status)
+                .body(RestApiError.builder()
+                        .code(code)
+                        .message(e.getMessage())
+                        .build());
+    }
+
+}
