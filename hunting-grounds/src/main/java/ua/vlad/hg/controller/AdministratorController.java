@@ -32,12 +32,8 @@ public class AdministratorController {
 
     @GetMapping("/login")
     public String login(@RequestParam(name = "error", defaultValue = "false") final boolean error, final ModelMap model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
-            model.addAttribute("error", error);
-            return "administrator/login";
-        }
-        return "administrator/index";
+        model.addAttribute("error", error);
+        return "administrator/login";
     }
 
     @GetMapping("/signup")
